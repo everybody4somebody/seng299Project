@@ -4,9 +4,3 @@
     height:800px;
     margin:0 auto;
 }
-
-circle[class="zero"]:hover{
-	opacity: 0.5;
-	fill: brown;
-	fill-opacity: 0.5;
-}
