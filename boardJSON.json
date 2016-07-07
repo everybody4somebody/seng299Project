@@ -1,0 +1,12 @@
+{
+	"board": array of arrays,
+	"scores": [player1, player2],
+    "last" : {
+    	"x" : number,
+    	"y" : number,
+   		"c" : number,
+   		"pass" : boolean
+	},
+	"size": int
+}
+
