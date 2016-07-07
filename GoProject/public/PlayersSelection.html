@@ -1,7 +1,8 @@
 
 <html>
     <head>
-        <link href='/gameSettings.css' rel='stylesheet' type='text/css'>
+        <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="scriptForSignIn.js"></script>
     </head>
     <body>
     
@@ -11,11 +12,11 @@
 			<div class ="PlayerBox">
 				<h2>Player 1</h2></br>
 				
-				<div class="button_holder">
-					<button id="SignIn" onclick="SignInAppear()" >Sign In</button>
+				<div>
+					<button id="SignIn" onclick="Sign()" >Sign In</button>
 				</div></br>
 					
-				<div style= "text-align: center">
+				<div id= "visible" style= "text-align: center; visibility: hidden;">
 					<form action="demo_form.asp">
 					  UserName <input type="text" name="UserName"><br>
 					  Password <input type="text" name="Password"><br>
@@ -28,8 +29,8 @@
 				</div>
 			</div>
 			
-			<div class ="PlayerBox">
-				<h2>Player 2</h2></br>
+			<div class ="PlayerBox" id = "AI">
+				<h2 id = "name2">Player 2</h2></br>
 				<div class="button_holder">
 					<button id="SignIn">Sign In</button>
 				</div></br>
