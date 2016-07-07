@@ -1,5 +1,7 @@
  //@param cb {function} callback to call when the request comes back from the server.
-var serverInterface = new ServerInterface("localhost", 3000);
+//var serverInterface = new ServerInterface("localhost", 3000);
+
+
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
