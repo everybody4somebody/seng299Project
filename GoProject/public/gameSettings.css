@@ -40,14 +40,11 @@
 	background: #c9c9c9;
 	text-decoration: none;
 }
-div.SignIn{
-	border: 3px solid #73AD21;
-	margin: auto;
-	width: 500px;
-	height: 400px;
+.PlayerBox{
+	border: 5px solid #73AD21;
+	width: 700px;
+	height: 600px;
 	display:inline-block;
-	
-	
 }
 
 .button_holder{
@@ -59,7 +56,7 @@ h1{
 	margin-bottom: 50px;
 }
 
-.sign_in_boxes {
+.PlayersBoxes {
 	text-align: center;
 	margin-bottom: 50px;
 }
