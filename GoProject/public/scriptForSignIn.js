@@ -1,7 +1,14 @@
 window.onload = function(){
-	document.getElementById('SignIn').onclick = function Sign(){
+	document.getElementById('Player1SignIn').onclick = function Sign(){
 		
-		var vis = document.getElementById("visible");
+		var vis = document.getElementById("Player1visible");
+		console.log ("vis");
+		vis.style.visibility = "visible";
+
+	}
+	document.getElementById('Player2SignIn').onclick = function Sign(){
+		
+		var vis = document.getElementById("Player2visible");
 		console.log ("vis");
 		vis.style.visibility = "visible";
 
