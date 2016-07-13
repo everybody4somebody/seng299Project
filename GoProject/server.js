@@ -1,10 +1,19 @@
 "use strict";
 
-var express    = require("express");
+var express = require("express");
+var NextMoveScript = require("./public/NextMoveScript.js");
 
 var app = express();
 
 app.use(express.static('public'));
+
+
+
+
+var boardState = generateBoard();
+var lastMove = {x : 0, y : 0,c : 0, pass: false};
+
+
 
 function generateBoard(){
 
@@ -13,22 +22,17 @@ function generateBoard(){
         board  : [],
     }
 
-    var max = 19;
-    var min = 5;
-
-    while(state.size % 2 !== 1){
-        state.size = Math.floor(Math.random() * (max - min + 1)) + min; 
-    }
+    state.size = 9
 
     var tmp = []; 
     for(var i = 0; i < state.size; i++){
         tmp = []; 
         for(var j = 0; j < state.size; j++){
-            tmp.push(Math.floor(Math.random()*(2 - 0 + 1))); 
+            tmp.push(0); 
         }
         state.board.push(tmp);
     }
-
+	boardState = state;
     return state; 
 
 }
@@ -39,13 +43,28 @@ function generateBoard(){
  */
 app.get("/data", function (req, res) {
     console.log("GET Request to: /data");
-    res.json(generateBoard()); 
+    res.json(boardState); 
 });
 
 
 
+
+app.post("/move", function(req, res){
+	console.log("POST Request to: /move");
+	
+	NextMoveScript.move(boardState.board, lastMove, function(move){
+		console.log(move._c);
+		boardState.board[move._x][move._y] = move._c;
+		lastMove = move;
+		res.json(boardState);
+	});
+});
+
+
+
+
+
+
 app.listen(process.env.PORT || 3000, function () {
-    
     console.log("Listening on port 3000");
-    
 });

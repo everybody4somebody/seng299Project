@@ -2,6 +2,8 @@
 //var serverInterface = new ServerInterface("localhost", 3000);
 
 
+var boardState = null;
+
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
@@ -82,11 +84,25 @@ $(document).ready(function(){
     });
 });
 
+function getMove(){
+	
+	$.ajax({
+		type: 'POST',
+		url: '/move',
+		dataType: "json",
+		data : JSON.stringify(boardState),
+		contentType : "application/json",
+		success : function(data){
+			console.log(data);
+			console.log(status);
+			boardState = data;
+			drawBoard(data);
+		}
+	});
+}
+
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-
-        this.setAttribute('fill', 'red');
-        this.setAttribute('fill-opacity', '1');
-        this.setAttribute('class', '');
+		getMove();
     });
 });
