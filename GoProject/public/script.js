@@ -12,13 +12,14 @@ function getData(cb){
         // handle any errors here....
 
         // draw the board....
+		boardState = data;
         cb(data);  
 
     }); 
 }
 
 
-//@param state {object} - an object representing the state of the board.  
+
 function drawBoard(state){
 
     var canvas = $("#canvas"); 
@@ -43,19 +44,25 @@ function drawBoard(state){
         var array = board[i - 1];
         for (var j = 1; j < array.length + 1; j++){
             if (board[i - 1][j - 1] == 1){
-                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black'));
+                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black', i, j));
             }
             else if (board[i - 1][j - 1] == 2){
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue'));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue', i, j));
             }
             else{
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white'));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j));
             }
         }
     }
+	canvas.empty();
     canvas.append(svg);
 
 }
+
+
+
+
+
 
 
 function init(){
@@ -84,7 +91,9 @@ $(document).ready(function(){
     });
 });
 
-function getMove(){
+function getMove(ID){
+	boardState.position = ID;
+	console.log(boardState.position);
 	
 	$.ajax({
 		type: 'POST',
@@ -103,6 +112,6 @@ function getMove(){
 
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-		getMove();
+		getMove(this.getAttribute("id"));
     });
 });

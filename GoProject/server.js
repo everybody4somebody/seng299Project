@@ -7,7 +7,7 @@ var app = express();
 
 app.use(express.static('public'));
 
-
+app.use(require("body-parser").json());
 
 
 var boardState = generateBoard();
@@ -20,6 +20,7 @@ function generateBoard(){
     var state = {
         size : 0, 
         board  : [],
+		position : [0,0],
     }
 
     state.size = 9
@@ -51,8 +52,8 @@ app.get("/data", function (req, res) {
 
 app.post("/move", function(req, res){
 	console.log("POST Request to: /move");
-	
-	NextMoveScript.move(boardState.board, lastMove, function(move){
+	console.log(req.body);
+	NextMoveScript.move(req.body.board, lastMove, req.body.position, function(move){
 		console.log(move._c);
 		boardState.board[move._x][move._y] = move._c;
 		lastMove = move;
