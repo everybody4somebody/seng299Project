@@ -47,14 +47,14 @@ class ServerInterface{
      * @param stop {Date} when the timer was stopped
      * @param cb {function} to call when request comes back. 
      */
-    addTask(name, project, start, stop, cb){
+    addUser(Username, Userpassword,cb){
         
         this._sendData(
-            {name : name, project : project, startTime : start, endTime : stop},
+            {Username : Username, Userpassword : Userpassword},
             "/add",
             function(err){
                 if(err){
-                    console.log("Error adding task: "+err);
+                    console.log("Error adding user: "+err);
                     cb(err);
                 }else{
                     cb(null);
@@ -70,7 +70,7 @@ class ServerInterface{
      * @param index {number} the index of the task to remove.
      * @param cb {function} to call when the request comes back. 
      */
-    removeTask(id, cb){
+    removeUser	(id, cb){
         this._sendData(
             {id : id},
             "/remove",

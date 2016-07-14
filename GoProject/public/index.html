@@ -1,7 +1,9 @@
-
 <html>
     <head>
         <link href='/index.css' rel='stylesheet' type='text/css'>
+		<link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="scriptForSignUp.js"></script>
+		
     </head>
     <body>
     
@@ -14,6 +16,19 @@
         <div class="button_holder">
             <button type='button' class="btn" id='profiles_button'>Profiles</button>
         </div>
+		<div>
+			<button id="PlayerSignUp" onclick="SignUp()" >Sign Up</button>
+		</div></br>
+		<div id= "SignUpvisible" style= "text-align: center; visibility: hidden;">
+				
+			<form>
+				UserName <input type="text" placeholder="" ><br>
+				Email <input type="text" placeholder="" ><br>
+				Password <input type="text" placeholder=""><br>
+				Repeat password <input type="text" placeholder=""><br>
+				<button type="button" >Sign Up</button>
+			</form>
+		</div></br>
 
 
     </body>
