@@ -1,7 +1,6 @@
 "use strict";
 
 var express = require("express");
-var NextMoveScript = require("./public/NextMoveScript.js");
 
 var app = express();
 
@@ -23,7 +22,7 @@ function generateBoard(){
 		position : [0,0],
     }
 
-    state.size = 9 ///Game board size
+    state.size = 9
 
     var tmp = []; 
     for(var i = 0; i < state.size; i++){

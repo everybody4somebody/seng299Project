@@ -37,6 +37,7 @@ div.container2 {
   	color: #000;
 }
 }
+
 #profiles_button {
 	-webkit-border-radius: 8;
 	-moz-border-radius: 8;
@@ -60,8 +61,4 @@ div.container2 {
 .button_holder{
 	text-align: center;
 	margin-bottom: 30px;
-}
-
-h1{
-	margin-bottom: 50px;
 }

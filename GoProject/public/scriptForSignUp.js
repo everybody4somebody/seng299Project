@@ -6,6 +6,4 @@ window.onload = function(){
 		vis.style.visibility = "visible";
 
 	}
-
-	
 }

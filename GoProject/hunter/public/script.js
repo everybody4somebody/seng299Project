@@ -1,9 +1,5 @@
  //@param cb {function} callback to call when the request comes back from the server.
-//var serverInterface = new ServerInterface("localhost", 3000);
-
-
-var boardState = null;
-
+var serverInterface = new ServerInterface("localhost", 3000);
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
@@ -12,14 +8,13 @@ function getData(cb){
         // handle any errors here....
 
         // draw the board....
-		boardState = data;
         cb(data);  
 
     }); 
 }
 
 
-
+//@param state {object} - an object representing the state of the board.  
 function drawBoard(state){
 
     var canvas = $("#canvas"); 
@@ -44,25 +39,19 @@ function drawBoard(state){
         var array = board[i - 1];
         for (var j = 1; j < array.length + 1; j++){
             if (board[i - 1][j - 1] == 1){
-                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black', i, j));
+                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black'));
             }
             else if (board[i - 1][j - 1] == 2){
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue', i, j));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue'));
             }
             else{
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white'));
             }
         }
     }
-	canvas.empty();
     canvas.append(svg);
 
 }
-
-
-
-
-
 
 
 function init(){
@@ -91,27 +80,11 @@ $(document).ready(function(){
     });
 });
 
-function getMove(ID){
-	boardState.position = ID;
-	console.log(boardState.position);
-	
-	$.ajax({
-		type: 'POST',
-		url: '/move',
-		dataType: "json",
-		data : JSON.stringify(boardState),
-		contentType : "application/json",
-		success : function(data){
-			console.log(data);
-			console.log(status);
-			boardState = data;
-			drawBoard(data);
-		}
-	});
-}
-
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-		getMove(this.getAttribute("id"));
+
+        this.setAttribute('fill', 'red');
+        this.setAttribute('fill-opacity', '1');
+        this.setAttribute('class', '');
     });
 });
