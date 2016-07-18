@@ -6,9 +6,6 @@ var Board = require("./Board.js");
 	
 function move(board, lastMove, position, cb){
 	var newMove = new Board.Move();
-	console.log(position);
-	console.log(position[0]);
-	console.log(position[2]);
 	var tmpX = (parseInt(position[0],10) - 1);
 	var tmpY = (parseInt(position[2],10) - 1);
 
