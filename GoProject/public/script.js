@@ -3,6 +3,7 @@
 
 
 var boardState = null;
+var armies = [];
 
 
 function getData(cb){
@@ -102,11 +103,60 @@ function getMove(ID){
 			console.log(data);
 			console.log(status);
 			boardState = data;
-			console.log(findArmies(data.board));
-			drawBoard(data);
+			armies = findArmies(boardState.board);
+			boardState.board = checkDeletions(boardState.board);
+			drawBoard(boardState);
+			
+			
+				$.ajax({
+					type: 'POST',
+					url: '/delete',
+					dataType: "json",
+					data : JSON.stringify(boardState),
+					contentType : "application/json",
+					success : function(data){
+						console.log(data);
+						console.log(status);
+					}
+				});
 		}
 	});
 }
+
+
+
+
+
+function checkDeletions(board){
+	
+	var numArmies = armies.length;
+	var counter = 0;
+	while (counter < numArmies){
+		if (armies[counter].liberties == 0){
+			console.log("An army has been defeated");
+			console.log(armies[counter].tokens);
+			var numTokens = armies[counter].tokens.length;
+			var internalCounter = 0;
+			while (internalCounter < numTokens){
+				board[armies[counter].tokens[internalCounter]._pos[0]][armies[counter].tokens[internalCounter]._pos[1]] = 0;
+				internalCounter = internalCounter + 1;
+			}
+		}
+		counter = counter + 1;
+	}
+	
+	
+	return board;
+}
+
+
+
+
+
+
+
+
+
 
 
 function findArmies(board) {

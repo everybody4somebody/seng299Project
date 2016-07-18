@@ -63,6 +63,13 @@ app.post("/move", function(req, res){
 
 
 
+app.post("/delete", function(req, res){
+	boardState.board = req.body.board;
+	res.json(boardState);
+});
+
+
+
 
 
 
