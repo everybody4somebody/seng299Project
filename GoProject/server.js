@@ -1,8 +1,11 @@
 "use strict";
 
 var express = require("express");
+var bodyParser = require("body-parser"); 
+
 var NextMoveScript = require("./public/NextMoveScript.js");
 
+var Storage = require('./lib/MongoDB');
 var app = express();
 
 app.use(express.static('public'));
@@ -13,7 +16,7 @@ app.use(require("body-parser").json());
 var boardState = generateBoard();
 var lastMove = {x : 0, y : 0,c : 0, pass: false};
 
-
+var db = new Storage(null,null, 'user')
 
 function generateBoard(){
 
@@ -37,16 +40,53 @@ function generateBoard(){
     return state; 
 
 }
-
+/*
+	db.getAllUsers(function(err, data){
+         if(err){
+            res.status(500).send();
+        }else{
+            console.log(data)
+            res.status(200).json(data);
+        } 
+     });
+*/
 
 /**
  * Handle a request for task data.
  */
 app.get("/data", function (req, res) {
     console.log("GET Request to: /data");
-    res.json(boardState); 
+	db.getAllUsers(function(err, data){
+         if(err){
+            res.status(500).send();
+        }else{
+            console.log(data)
+            res.status(200).json(data);
+        } 
+     });
+	//res.json(boardState); 
 });
-
+/*app.get("/DBdata",function (req, res){
+	console.log("GET Request to: /DBdata");
+	db.getAllUsers(function(err, data){
+         if(err){
+            res.status(500).send();
+        }else{
+            console.log(data)
+            res.status(200).json(data);
+        } 
+     });
+});*/
+app.post("/login", function (req,res){
+	console.log("POST Request to: /login");
+	db.getUser(req.body.Username, req.body.Userpassword, function(err, data){
+         if(err){
+            res.status(500).send();
+        }else{
+            res.status(200).json();
+        } 
+     });
+})
 
 
 
@@ -68,4 +108,7 @@ app.post("/move", function(req, res){
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("Listening on port 3000");
+	db.connect(function(){
+        // some message here....
+    });
 });

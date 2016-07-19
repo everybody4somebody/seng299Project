@@ -65,10 +65,9 @@ class MongoDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes two parameters: 1) error parameter, 2) data returned from query.
      */
-    getAllTasks(callback) {
-
-        var collection = this._db.collection("tasks");
-
+    getAllUsers(callback) {
+        var collection = this._db.collection("user");
+		//collection.remove({})
         collection.find({}).toArray(function(err, data){
             if(err){
                 callback(err, null);
@@ -76,8 +75,10 @@ class MongoDB extends DBAdapter {
                 callback(null, data);
             }
         });
+		//console.log(collection.find())
 
     }
+	
 
     /**
      * Adds a task to the database.
@@ -86,17 +87,31 @@ class MongoDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes a single error parameter.
      */
-    addTask(task, callback) {
-
-        task.id = (new Date()).getTime(); 
-        var collection = this._db.collection("tasks");
-        collection.insertOne(task, function(err, result){
+    addUser(User, callback) {
+		console.log("reach here?")
+        User.id = (new Date()).getTime(); 
+        var collection = this._db.collection("user");
+        collection.insertOne(User, function(err, result){
             if(err) callback(err);
             else callback(null);
         });
+		//insertDocument(db, 'users', {'user':myUsername, 'password':myPassword, 'wins':0, 'losses':0, 'ELO':0}, callback);
+		//console.log("printin collection")
+		//console.log(collection);
 
     }
+	getUser(username) {
+        var collection = this._db.collection("user");
+		//collection.remove({})
+        collection.find({Username: username});
+        /*var collection = this._db.collection("user");
 
+        collection.findOne({Username : username}, function(err, data){
+            if(err || data.length !== 0) callback(err, null);
+            else callback(null, data);
+        });*/
+
+    }
     /**
      * Remove a task from the database.
      *

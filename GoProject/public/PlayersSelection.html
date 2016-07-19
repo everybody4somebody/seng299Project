@@ -2,7 +2,6 @@
 <html>
     <head>
         <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
-		<script type="text/javascript" src="scriptForSignIn.js"></script>
     </head>
     <body>
     
@@ -19,9 +18,9 @@
 				<div id= "Player1visible" style= "text-align: center; visibility: hidden;">
 					
 					<form>
-					  UserName <input type="text" placeholder="" ><br>
-					  Password <input type="text" placeholder=""><br>
-					  <button type="button" >Log In</button>
+					  UserName <input type="text" id="usernme" placeholder="" ><br>
+					  Password <input type="text" id="passwrd" placeholder=""><br>
+					  <button type="button" id="log" onclick="LogIn();">Log In</button>
 					</form>
 				</div></br>
 
@@ -53,6 +52,8 @@
             <a href="http://localhost:3000/game.html" id="play_button" class="btn">Play Go</a>
 			<a href="http://localhost:3000/gameSettings.html" id="play_button" class="btn">Settings</a>
         </div>
-
+		<script type="text/javascript" src="ServerInterface.js"></script>
+		<script type="text/javascript" src="scriptForSignIn.js"></script>
+	
     </body>
 </html>

@@ -23,8 +23,9 @@ class ServerInterface{
         var postXhr = new XMLHttpRequest();
         postXhr.open("POST", path, true);
         postXhr.setRequestHeader("Content-type", "application/json");
+		console.log(obj);
         postXhr.send(JSON.stringify(obj));
-
+		console.log("jep");
         postXhr.onreadystatechange = function(){
 
             // this function is executed when the request comes 
@@ -33,6 +34,7 @@ class ServerInterface{
             if (postXhr.readyState == 4 && postXhr.status == 200) {
                 callback(null);
             }else if(postXhr.readyState == 4 && postXhr.status !== 200){
+				console.log("here");
                 callback(postXhr.status);
             }
         }
@@ -48,7 +50,7 @@ class ServerInterface{
      * @param cb {function} to call when request comes back. 
      */
     addUser(Username, Userpassword,cb){
-        
+        console.log("Rhere?")
         this._sendData(
             {Username : Username, Userpassword : Userpassword},
             "/add",
@@ -63,7 +65,24 @@ class ServerInterface{
         );
         
     }
+	
+	getUser (username, cb) {
+		this._sendData(
+            {Username : username},
+            "/login",
+            function(err){
+                if(err){
+                    console.log("Error finding user: "+err);
+                    cb(err);
+                }else{
+                    cb(null);
+                }
+            }
+        )
+	}
 
+	
+	
     /**
      * Makes a request to remove a task from the server's memory.  
      * 
@@ -99,6 +118,7 @@ class ServerInterface{
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/data", true);
+		//xhr.open("GET", "/DBdata", true);
         xhr.send();
 
         xhr.onreadystatechange = function () {

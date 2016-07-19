@@ -1,3 +1,4 @@
+var serverInterface = new ServerInterface("localhost", 3000);
 window.onload = function(){
 	document.getElementById('Player1SignIn').onclick = function Sign(){
 		
@@ -19,4 +20,22 @@ window.onload = function(){
 
 	}
 	
+}
+function LogIn() {
+	var username = document.getElementById("usernme").value;
+	var pass = document.getElementById("passwrd").value;
+	
+    console.log("Account Info");
+
+    serverInterface.getUser(username, function (err, data) {
+
+        if (err) {
+            console.log("ERROR getting data: " + err);
+            alert("Could not get data from server: " + err);
+        } else {
+			
+            console.log("what?");
+        }
+
+    });
 }

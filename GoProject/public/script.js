@@ -4,22 +4,17 @@
 
 var boardState = null;
 
-
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
         console.log("Response for /data: "+textStatus);  
 
         // handle any errors here....
-
         // draw the board....
 		boardState = data;
         cb(data);  
 
     }); 
 }
-
-
-
 function drawBoard(state){
 
     var canvas = $("#canvas"); 
