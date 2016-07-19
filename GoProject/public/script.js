@@ -182,8 +182,8 @@ function checkDeletions(board){
 
 function checkValidity(ID){
     var isValid = false;
-    var tmpX = (parseInt(ID[0],10) - 1);
-    var tmpY = (parseInt(ID[2],10) - 1);
+    var tmpX = (parseInt(position.substr(0, position.indexOf(',')),10) - 1);
+	var tmpY = (parseInt(position.substr(position.indexOf(',') + 1),10) - 1);
     var colour = getNextMoveColour(boardState.lastMove);
     console.log(colour);
     
