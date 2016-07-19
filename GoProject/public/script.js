@@ -104,21 +104,23 @@ function getMove(ID){
 			console.log(status);
 			boardState = data;
 			armies = findArmies(boardState.board);
-			boardState.board = checkDeletions(boardState.board);
+			var checkDeletion = checkDeletions(boardState.board);
+			boardState.board = checkDeletion.newBoard;
 			drawBoard(boardState);
 			
-			
-				$.ajax({
-					type: 'POST',
-					url: '/delete',
-					dataType: "json",
-					data : JSON.stringify(boardState),
-					contentType : "application/json",
-					success : function(data){
-						console.log(data);
-						console.log(status);
-					}
-				});
+		if 	(checkDeletion.bool){
+			$.ajax({
+			type: 'POST',
+			url: '/delete',
+			dataType: "json",
+			data : JSON.stringify(boardState),
+			contentType : "application/json",
+			success : function(data){
+				console.log(data);
+				console.log(status);
+			}
+		});
+		}
 		}
 	});
 }
@@ -129,16 +131,22 @@ function getMove(ID){
 
 function checkDeletions(board){
 	
+	 var state = { 
+        newBoard  : board,
+		bool : false,
+    }
+	
 	var numArmies = armies.length;
 	var counter = 0;
 	while (counter < numArmies){
 		if (armies[counter].liberties == 0){
+			state.bool = true;
 			console.log("An army has been defeated");
 			console.log(armies[counter].tokens);
 			var numTokens = armies[counter].tokens.length;
 			var internalCounter = 0;
 			while (internalCounter < numTokens){
-				board[armies[counter].tokens[internalCounter]._pos[0]][armies[counter].tokens[internalCounter]._pos[1]] = 0;
+				state.newBoard[armies[counter].tokens[internalCounter]._pos[0]][armies[counter].tokens[internalCounter]._pos[1]] = 0;
 				internalCounter = internalCounter + 1;
 			}
 		}
@@ -146,16 +154,74 @@ function checkDeletions(board){
 	}
 	
 	
-	return board;
+	return state;
 }
 
 
 
 
+function checkValidity(ID){
+	var isValid = false;
+	var tmpX = (parseInt(ID[0],10) - 1);
+	var tmpY = (parseInt(ID[2],10) - 1);
+	var colour = getNextMoveColour(boardState.lastMove);
+	console.log(colour);
+	
+	
+	
+	if (!((tmpX-1) < 0)){
+		if (boardState.board[tmpX - 1][tmpY] == 0 || boardState.board[tmpX - 1][tmpY] == colour){
+			isValid = true;
+		}
+	}
+		
+	
+	if(!((tmpX + 1) > (boardState.size - 1))){
+		if (boardState.board[tmpX + 1][tmpY] == 0 || boardState.board[tmpX + 1][tmpY] == colour){
+			isValid = true;
+		}
+	}
+		
+	
+	if (!((tmpY - 1) < 0)){
+		if (boardState.board[tmpX][tmpY - 1] == 0 || boardState.board[tmpX][tmpY - 1] == colour){
+			isValid = true;
+		}
+	}
+		
+	
+	if (!((tmpY + 1) > (boardState.size - 1))){
+		if (boardState.board[tmpX][tmpY + 1] == 0 || boardState.board[tmpX][tmpY + 1] == colour){
+			isValid = true;
+		}
+	}
+		
+	
+	
+	
+	
+	
+	return isValid;
+}
 
 
-
-
+function getNextMoveColour(m){
+	switch(m._c){
+		
+		case BLACK:
+			return WHITE;
+			break;
+		case WHITE:
+			return BLACK;
+			break;
+		case NONE:
+			return BLACK;
+			break;
+		default:
+			return BLACK;
+			break;
+	}
+}
 
 
 
@@ -236,6 +302,10 @@ function findArmies(board) {
 
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-		getMove(this.getAttribute("id"));
+		if (checkValidity(this.getAttribute("id"))){
+			getMove(this.getAttribute("id"));
+		}else{
+			alert("That move is invalid");
+		}
     });
 });

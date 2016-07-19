@@ -12,7 +12,6 @@ app.use(require("body-parser").json());
 
 
 var boardState = generateBoard();
-var lastMove = {x : 0, y : 0,c : 0, pass: false};
 
 
 
@@ -21,6 +20,7 @@ function generateBoard(){
     var state = {
         size : 0, 
         board  : [],
+		lastMove  : {_x : 0, _y : 0,_c : 0, _pass: false},
 		position : [0,0],
     }
 
@@ -54,9 +54,10 @@ app.get("/data", function (req, res) {
 app.post("/move", function(req, res){
 	console.log("POST Request to: /move");
 	console.log(req.body);
-	NextMoveScript.move(req.body.board, lastMove, req.body.position, function(move){
+	console.log(req.body.lastMove);
+	NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
 		boardState.board[move._x][move._y] = move._c;
-		lastMove = move;
+		boardState.lastMove = move;
 		res.json(boardState);
 	});
 });

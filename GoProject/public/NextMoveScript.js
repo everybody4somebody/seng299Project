@@ -19,7 +19,7 @@ function move(board, lastMove, position, cb){
 
 
 function getNextMoveColour(m){
-	switch(m.colour){
+	switch(m._c){
 		
 		case Board.BLACK:
 			return Board.WHITE;
