@@ -54,7 +54,6 @@ app.get("/data", function (req, res) {
 app.post("/move", function(req, res){
 	console.log("POST Request to: /move");
 	console.log(req.body);
-	console.log(req.body.lastMove);
 	NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
 		boardState.board[move._x][move._y] = move._c;
 		boardState.lastMove = move;

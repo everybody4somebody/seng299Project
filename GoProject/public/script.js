@@ -142,7 +142,6 @@ function checkDeletions(board){
 		if (armies[counter].liberties == 0){
 			state.bool = true;
 			console.log("An army has been defeated");
-			console.log(armies[counter].tokens);
 			var numTokens = armies[counter].tokens.length;
 			var internalCounter = 0;
 			while (internalCounter < numTokens){
@@ -309,3 +308,31 @@ $(document).ready(function(){
 		}
     });
 });
+
+
+
+function Pass(){
+	if (boardState.lastMove._pass == true){
+		alert("GAME OVER");
+	}else{
+		var newMove = new Move();
+		newMove._x = 0;
+		newMove._y = 0;
+		newMove._c = 0;
+		newMove._pass = true;
+		console.log(newMove);
+		boardState.lastMove = newMove;
+		$.ajax({
+			type: 'POST',
+			url: '/delete',
+			dataType: "json",
+			data : JSON.stringify(boardState),
+			contentType : "application/json",
+			success : function(data){
+				console.log(data);
+				console.log(status);
+			}
+		});
+	}
+	
+}
