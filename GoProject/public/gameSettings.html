@@ -2,7 +2,8 @@
 <html>
     <head>
         <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
-		<script type="text/javascript" src="scriptForSignIn.js"></script>
+		<script type="text/javascript" src="scriptForGameSettings.js"></script>
+        <script type="text/javascript" src="jquery.min.js"></script>
     </head>
     <body>
     
@@ -17,7 +18,7 @@
 		</div>
 		<div align="center">
 			<p>Board Size</p>
-			<select align="center" id = "mySelect"> 
+			<select align="center" id = "board_size"> 
 				<option>9x9</option>
 				<option>13x13</option>
 				<option>19x19<option>
@@ -30,7 +31,7 @@
 			</form>
 		</div>
         <div class="button_holder">
-            <a href="http://localhost:3000/game.html" id="play_button" class="btn">Play Go</a>
+            <a href="#" id="play_button" class="btn">Play Go</a>
         </div>
     </body>
 </html>

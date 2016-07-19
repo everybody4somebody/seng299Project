@@ -2,28 +2,36 @@
 
 var express = require("express");
 var NextMoveScript = require("./public/NextMoveScript.js");
-
+var util = require('util');
 var app = express();
 
 app.use(express.static('public'));
 
 app.use(require("body-parser").json());
 
-
+var boardSize = 3;
 var boardState = generateBoard();
-var lastMove = {x : 0, y : 0,c : 0, pass: false};
 
 
 
 function generateBoard(){
+    console.log(boardSize);
+    if (boardSize != 3){
+        if (boardSize.indexOf('x') != -1){
+            boardSize = boardSize.replace(/(^\d+)(.+$)/i,'$1');
+        }
+    }
+    console.log(boardSize);
+
+
 
     var state = {
-        size : 0, 
+        size : boardSize, 
         board  : [],
+        lastMove : {x : 0, y : 0,c : 0, pass: false},
 		position : [0,0],
     }
-
-    state.size = 9
+    console.log(boardSize);
 
     var tmp = []; 
     for(var i = 0; i < state.size; i++){
@@ -47,23 +55,32 @@ app.get("/data", function (req, res) {
     res.json(boardState); 
 });
 
-
-
+app.post("/size", function(req, res){
+    console.log("POST Request to: /size");
+    boardSize = req.body.boardSize;
+});
 
 app.post("/move", function(req, res){
-	console.log("POST Request to: /move");
-	console.log(req.body);
-	NextMoveScript.move(req.body.board, lastMove, req.body.position, function(move){
-		console.log(move._c);
-		boardState.board[move._x][move._y] = move._c;
-		lastMove = move;
-		res.json(boardState);
-	});
+    console.log("POST Request to: /move");
+    console.log(req.body);
+    NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
+        boardState.board[move._x][move._y] = move._c;
+        boardState.lastMove = move;
+        res.json(boardState);
+    });
 });
 
 
+app.get("/new", function (req, res) {
+    console.log("GET Request to: /new");
+    boardState = generateBoard()
+    res.json(boardState); 
+});
 
-
+app.post("/delete", function(req, res){
+    boardState.board = req.body.board;
+    res.json(boardState);
+});
 
 
 app.listen(process.env.PORT || 3000, function () {

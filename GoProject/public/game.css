@@ -1,6 +1,18 @@
-#canvas{
-    border:1px solid grey; 
-    width:800px;
-    height:800px;
-    margin:0 auto;
+#canvas{ 
+    border: 8px solid black;
+    display: inline-block;
+
+}
+
+table {
+	margin: auto;
+}
+
+
+.playerBox {
+	display: inline-block;
+	border: 5px solid black;
+	width: 200px;
+	height: 500px;
+	text-align: center;
 }
