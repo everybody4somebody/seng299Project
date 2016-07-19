@@ -27,15 +27,27 @@ function LogIn() {
 	
     console.log("Account Info");
 
-    serverInterface.getUser(username, function (err, data) {
-
-        if (err) {
-            console.log("ERROR getting data: " + err);
-            alert("Could not get data from server: " + err);
-        } else {
-			
-            console.log("what?");
-        }
-
-    });
+    serverInterface.getUser(
+		function (err, data) {
+			if (err) {
+				console.log("ERROR getting data: " + err);
+				alert("Could not get data from server: " + err);
+			} else {
+				for (var i =0; i<data.length;i++){
+					if (username==data[i].Username && pass ==data[i].Userpassword){
+						console.log("welcome"+username);
+						alert("Success")
+						break;
+					}
+					else{
+						alert("log in failed");
+						break;
+					}
+					console.log(data[i].Username)
+				}
+				console.log(data);
+				console.log("what?");
+			}
+		});
+	//console.log(items);
 }

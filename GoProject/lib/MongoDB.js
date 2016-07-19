@@ -6,7 +6,7 @@
 // See https://github.com/mongodb/node-mongodb-native for details.
 var MongoClient = require("mongodb").MongoClient;
 var DBAdapter   = require("./DBAdapter");
-
+var assert = require('assert');
 
 class MongoDB extends DBAdapter {
 
@@ -75,6 +75,7 @@ class MongoDB extends DBAdapter {
                 callback(null, data);
             }
         });
+		//console.log(items);
 		//console.log(collection.find())
 
     }
@@ -100,10 +101,34 @@ class MongoDB extends DBAdapter {
 		//console.log(collection);
 
     }
-	getUser(username) {
-        var collection = this._db.collection("user");
+	getUser(user, callback) {
+		var collection = this._db.collection("user");
 		//collection.remove({})
-        collection.find({Username: username});
+        collection.find({}).toArray(function(err, data){
+            if(err){
+                callback(err, null);
+            }else{
+                callback(null, data);
+            }
+        });
+        /*var collection = this._db.collection("user").find({"Username":user.Username, "Userpassword":user.Userpassword});
+		collection.each(function(err,data){
+			assert.equal(err,null);
+			if (data!=null) {
+				console.log()
+				console.log(data);
+			}
+			else {
+				callback();
+			}
+			
+		})*/
+		//collection.remove({})
+        /*collection.find(user, function(err, data){
+            if(err || data.length !== 0) callback(err, null);
+            else callback(null, data);
+		});*/
+		//console.log(some);
         /*var collection = this._db.collection("user");
 
         collection.findOne({Username : username}, function(err, data){

@@ -47,7 +47,7 @@ class DBAdapter{
         throw new Error("interface class, method not callable");
     }
 	
-	getUser(username) {
+	getUser(user, callback) {
 		throw new Error("interface class, method not callable");
 	}
     /**

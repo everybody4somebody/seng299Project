@@ -2,7 +2,7 @@
 
 var express = require("express");
 var bodyParser = require("body-parser"); 
-
+var users = [];
 var NextMoveScript = require("./public/NextMoveScript.js");
 
 var Storage = require('./lib/MongoDB');
@@ -40,6 +40,10 @@ function generateBoard(){
     return state; 
 
 }
+function logsin(user){
+	//console.log(user);
+	return true;
+}
 /*
 	db.getAllUsers(function(err, data){
          if(err){
@@ -60,10 +64,12 @@ app.get("/data", function (req, res) {
          if(err){
             res.status(500).send();
         }else{
-            console.log(data)
+			//users = (data);
+            //console.log(data);
             res.status(200).json(data);
         } 
      });
+	// console.log(users);
 	//res.json(boardState); 
 });
 /*app.get("/DBdata",function (req, res){
@@ -77,15 +83,19 @@ app.get("/data", function (req, res) {
         } 
      });
 });*/
-app.post("/login", function (req,res){
+app.get("/login", function (req,res){
 	console.log("POST Request to: /login");
-	db.getUser(req.body.Username, req.body.Userpassword, function(err, data){
+	var users = [];
+	db.getAllUsers(function(err, data){
          if(err){
             res.status(500).send();
         }else{
-            res.status(200).json();
+			users = data;
+			//logsin(users);
+            res.status(200).json(data);
         } 
      });
+	
 })
 
 

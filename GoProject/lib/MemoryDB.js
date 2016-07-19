@@ -61,7 +61,8 @@ class MemoryDB extends DBAdapter {
         this._data.push(User);
         callback(null);
     }
-	getUser(username,callback) {
+	getUser(user,callback) {
+		console.log("reach here?")
 		callback(null, this._data);
 		/*var indexToFind = null;
 

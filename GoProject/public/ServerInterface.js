@@ -32,6 +32,7 @@ class ServerInterface{
             // back from the server. 
 
             if (postXhr.readyState == 4 && postXhr.status == 200) {
+				console.log("or here?");
                 callback(null);
             }else if(postXhr.readyState == 4 && postXhr.status !== 200){
 				console.log("here");
@@ -66,19 +67,24 @@ class ServerInterface{
         
     }
 	
-	getUser (username, cb) {
-		this._sendData(
-            {Username : username},
-            "/login",
-            function(err){
-                if(err){
-                    console.log("Error finding user: "+err);
-                    cb(err);
-                }else{
-                    cb(null);
-                }
+	getUser (callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/login", true);
+		//xhr.open("GET", "/DBdata", true);
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+
+            // this function is executed when the request comes
+            // back from the server.
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                callback(null, JSON.parse(xhr.responseText));
+            }else if(xhr.readyState == 4 && xhr.status !== 200){
+                callback(xhr.status, null);
             }
-        )
+        };
+    
 	}
 
 	
