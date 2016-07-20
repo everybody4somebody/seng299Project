@@ -110,7 +110,20 @@ app.post("/move", function(req, res){
 		res.json(boardState);
 	});
 });
+app.post("/add", function (req, res) {
 
+    console.log("POST Request to: /add");
+    
+    db.addUser(req.body, function(err){
+        if(err){
+            res.status(500).send();
+        }else{
+            res.status(200).send();
+        }
+    });
+    
+    res.status(200).send();
+});
 
 
 

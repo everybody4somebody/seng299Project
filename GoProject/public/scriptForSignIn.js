@@ -24,7 +24,7 @@ window.onload = function(){
 function LogIn() {
 	var username = document.getElementById("usernme").value;
 	var pass = document.getElementById("passwrd").value;
-	
+	var count = 0;
     console.log("Account Info");
 
     serverInterface.getUser(
@@ -35,15 +35,15 @@ function LogIn() {
 			} else {
 				for (var i =0; i<data.length;i++){
 					if (username==data[i].Username && pass ==data[i].Userpassword){
+						count = 1;
 						console.log("welcome"+username);
 						alert("Success")
 						break;
 					}
-					else{
-						alert("log in failed");
-						break;
-					}
 					console.log(data[i].Username)
+				}
+				if(count==0){
+					alert("log in failed");
 				}
 				console.log(data);
 				console.log("what?");
