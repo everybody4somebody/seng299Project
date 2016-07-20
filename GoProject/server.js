@@ -5,6 +5,8 @@ var NextMoveScript = require("./public/NextMoveScript.js");
 var util = require('util');
 var app = express();
 
+var aiInterface = require("./aiInterface");
+
 app.use(express.static('public'));
 
 app.use(require("body-parser").json());
@@ -15,23 +17,20 @@ var boardState = generateBoard();
 
 
 function generateBoard(){
-    console.log(boardSize);
     if (boardSize != 3){
         if (boardSize.indexOf('x') != -1){
             boardSize = boardSize.replace(/(^\d+)(.+$)/i,'$1');
         }
     }
-    console.log(boardSize);
 
 
 
     var state = {
         size : boardSize, 
         board  : [],
-        lastMove : {x : 0, y : 0,c : 0, pass: false},
+        lastMove : {x : 0, y : 0, c : 0, pass: false},
 		position : [0,0],
     }
-    console.log(boardSize);
 
     var tmp = []; 
     for(var i = 0; i < state.size; i++){
@@ -68,6 +67,22 @@ app.post("/move", function(req, res){
         boardState.lastMove = move;
         res.json(boardState);
     });
+});
+
+
+app.post("/randmove", function(req, res){
+
+    console.log("POST Request to: /randmove");
+    NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
+        boardState.board[move._x][move._y] = move._c;
+        boardState.lastMove = move;
+    });
+    aiInterface.getRandomMove(boardState.size, boardState.board, boardState.lastMove, function(move){
+        boardState.board[move.x][move.y] = move.c;
+        boardState.lastMove = move; 
+        res.json(boardState);
+    });
+
 });
 
 

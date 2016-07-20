@@ -69,18 +69,13 @@ function drawBoard(state){
 
 }
 
-
-
-
-
+function idkwut2callit(){
+    newBoard(drawBoard);
+}
 
 
 function init(){
-
-    // do page load things here...
-
     console.log("Initalizing Page....");
-    newBoard(drawBoard);
     getData(drawBoard); 
 }
 
@@ -105,9 +100,52 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-		getMove(this.getAttribute("id"));
+		//getMove(this.getAttribute("id"));
+        getRandomMove(this.getAttribute('id'));
     });
 });
+
+function getNextMoveColour(m){
+    switch(m._c){
+        
+        case Board.BLACK:
+            return Board.WHITE;
+            break;
+        case Board.WHITE:
+            return Board.BLACK;
+            break;
+        case Board.NONE:
+            return Board.BLACK;
+            break;
+        default:
+            return Board.BLACK;
+            break;
+    }
+}
+
+
+// Sends request to server to retrieve a move from the random address of the AI
+function getRandomMove(id){
+
+    boardState.position = id;
+    boardState.lastMove.x = id.substr(0, id.indexOf(','));
+    boardState.lastMove.y = id.substr(id.indexOf(',') + 1);
+    boardState.lastMove.c = getNextMoveColour(boardState.lastMove.c);
+    $.ajax({
+        type: 'POST',
+        url : '/randmove',
+        dataType: "json",
+        data : JSON.stringify(boardState), 
+        contentType : "application/json",
+        success : function(data){
+            console.log(data);
+            console.log(status);
+            boardState = data;
+            drawBoard(data);    
+        }
+    });
+
+}
 
 
 function getMove(ID){
@@ -182,8 +220,8 @@ function checkDeletions(board){
 
 function checkValidity(ID){
     var isValid = false;
-    var tmpX = (parseInt(position.substr(0, position.indexOf(',')),10) - 1);
-	var tmpY = (parseInt(position.substr(position.indexOf(',') + 1),10) - 1);
+    var tmpX = (parseInt(ID.substr(0, ID.indexOf(',')),10) - 1);
+    var tmpY = (parseInt(ID.substr(ID.indexOf(',') + 1),10) - 1);
     var colour = getNextMoveColour(boardState.lastMove);
     console.log(colour);
     
@@ -242,7 +280,6 @@ function getNextMoveColour(m){
             break;
     }
 }
-
 
 
 function findArmies(board) {
@@ -339,7 +376,7 @@ function Pass(){
         var newMove = new Move();
         newMove._x = 0;
         newMove._y = 0;
-        newMove._c = 0;
+        newMove._c = getNextMoveColour(boardState.lastMove);
         newMove._pass = true;
         console.log(newMove);
         boardState.lastMove = newMove;
