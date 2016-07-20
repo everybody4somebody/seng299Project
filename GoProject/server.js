@@ -2,6 +2,7 @@
 
 var express = require("express");
 var NextMoveScript = require("./public/NextMoveScript.js");
+var DBInterface = require("./node_modules/express/DBInterface.js");
 
 var app = express();
 
@@ -47,7 +48,15 @@ app.get("/data", function (req, res) {
     res.json(boardState); 
 });
 
-
+app.get("/replay", function (req, res) {
+    console.log("GET Request to: /replay");
+    DBInterface.getReplays('test', 
+		function(replay){
+			console.log(replay)
+			res.json(replay);
+		}
+	);
+});
 
 
 app.post("/move", function(req, res){
