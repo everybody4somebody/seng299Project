@@ -1,5 +1,5 @@
 var serverInterface = new ServerInterface("localhost", 3000);
-window.onload = function(){
+/*window.onload = function(){
 	document.getElementById('Player1SignIn').onclick = function Sign(){
 		
 		var vis = document.getElementById("Player1visible");
@@ -20,7 +20,7 @@ window.onload = function(){
 
 	}
 	
-}
+}*/
 function LogIn() {
 	var username = document.getElementById("usernme").value;
 	var pass = document.getElementById("passwrd").value;
@@ -32,7 +32,7 @@ function LogIn() {
 			if (err) {
 				console.log("ERROR getting data: " + err);
 				alert("Could not get data from server: " + err);
-			} else {
+			} else {	
 				for (var i =0; i<data.length;i++){
 					if (username==data[i].Username && pass ==data[i].Userpassword){
 						count = 1;
@@ -43,7 +43,9 @@ function LogIn() {
 					console.log(data[i].Username)
 				}
 				if(count==0){
+					
 					alert("log in failed");
+					
 				}
 				console.log(data);
 				console.log("what?");

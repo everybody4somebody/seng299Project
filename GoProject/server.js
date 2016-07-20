@@ -60,29 +60,19 @@ function logsin(user){
  */
 app.get("/data", function (req, res) {
     console.log("GET Request to: /data");
-	db.getAllUsers(function(err, data){
-         if(err){
-            res.status(500).send();
-        }else{
-			//users = (data);
-            //console.log(data);
-            res.status(200).json(data);
-        } 
-     });
 	// console.log(users);
-	//res.json(boardState); 
+	res.json(boardState); 
 });
-/*app.get("/DBdata",function (req, res){
+app.get("/DBdata",function (req, res){
 	console.log("GET Request to: /DBdata");
 	db.getAllUsers(function(err, data){
          if(err){
             res.status(500).send();
         }else{
-            console.log(data)
             res.status(200).json(data);
         } 
      });
-});*/
+});
 app.get("/login", function (req,res){
 	console.log("POST Request to: /login");
 	var users = [];

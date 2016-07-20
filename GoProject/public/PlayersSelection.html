@@ -1,59 +1,195 @@
 
 <html>
     <head>
-        <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="description" content="Go Index">
+		<meta name="author" content="Hunter Watson">
+
+		<title>Go</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	 
+		<!-- Custom Google Web Font -->
+		<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+		
+		<!-- Custom CSS-->
+		<link href="css/general.css" rel="stylesheet">
+		
+		 <!-- Owl-Carousel -->
+		<link href="css/custom.css" rel="stylesheet">
+		<link href="css/owl.carousel.css" rel="stylesheet">
+		<link href="css/owl.theme.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/animate.css" rel="stylesheet">
+		
+		<!-- Magnific Popup core CSS file -->
+		<link rel="stylesheet" href="css/magnific-popup.css"> 
+		
+		<script src="js/modernizr-2.8.3.min.js"></script>  <!-- Modernizr /-->
+		<!--[if IE 9]>
+			<script src="js/PIE_IE9.js"></script>
+		<![endif]-->
+		<!--[if lt IE 9]>
+			<script src="js/PIE_IE678.js"></script>
+		<![endif]-->
+
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+		<![endif]-->
     </head>
     <body>
-    
-        <h1 align="center">Player Selection</h1>
-
-        <div class='PlayersBoxes'>
-			<div class ="PlayerBox">
-				<h2>Player 1</h2></br>
-				
-				<div>
-					<button id="Player1SignIn" onclick="Sign()" >Sign In</button>
-				</div></br>
-				
-				<div id= "Player1visible" style= "text-align: center; visibility: hidden;">
-					
-					<form>
-					  UserName <input type="text" id="usernme" placeholder="" ><br>
-					  Password <input type="text" id="passwrd" placeholder=""><br>
-					  <button type="button" id="log" onclick="LogIn();">Log In</button>
-					</form>
-				</div></br>
-
-				<div>
-					<button id="VSAI">VS AI</button>
-				</div>
+    <div id="player-selection" class="content-section-a" style="border-top: 0">
+		<div class="container">
+			<div class="col-sm-6 col-md-offset-3 text-center wrap_title">
+				<h2>Player Selection</h2>
 			</div>
+			<div class="row">
 			
-			<div class ="PlayerBox" id = "AI">
-				<h2 id = "name2">Player 2</h2></br>
-				<div>
-					<button id="Player2SignIn" onclick="Sign()" >Sign In</button>
-				</div></br>
-				<div id= "Player2visible" style= "text-align: center; visibility: hidden;">
-					<form action="demo_form.asp">
-					  UserName <input type="text" name="UserName"><br>
-					  Password <input type="text" name="Password"><br>
-					  <button type="button" >Log In</button>
-					</form>
-				</div></br>
-				<div>
-				<button  id="VSAI">VS AI</button>
+				<div class="col-sm-6 wow fadeInDown text-center">
+				  	<h3>Player 1</h3>
+				  	<div class="btn-group btn-group-vertical">
+  						<a href="#" class="btn btn-primary"><span class="network-name" data-toggle="modal" data-target="#p1Modal">Sign In</span></a>
+ 						<a href="#" class="btn btn-info">Play As Guest</a>
+ 						<a href='#' class="btn btn-default">AI</a>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 wow fadeInDown text-center">  
+					<h3>Player 2</h3>
+				  	<div class="btn-group btn-group-vertical">
+  						<a href="#" class="btn btn-primary"><span class="network-name" data-toggle="modal" data-target="#p2Modal">Sign In</span></a>
+ 						<a href="#" class="btn btn-info">Play As Guest</a>
+ 						<a href='#' class="btn btn-default">AI</a>
+					</div>
 				</div>
 			</div>
-        </div>
-		</br>
+				
+			<div class="row tworow">
+			
+				<div class="col-sm-12  wow fadeInDown text-center">
+				  	<div class="btn-group btn-group-lg">
+				  		<a type="button" href='http://localhost:3000/gameSettings.html' class="btn btn-primary">Settings</a>
+  						<a type="button" href='http://localhost:3000/game.html' class="btn btn-info">Quick Play</a>
+					</div>
+				</div><!-- /.col-lg-4 -->
+			</div><!-- /.row -->
+		</div>	
+	</div>
 
-        <div class="button_holder">
-            <a href="http://localhost:3000/game.html" id="play_button" class="btn">Play Go</a>
-			<a href="http://localhost:3000/gameSettings.html" id="play_button" class="btn">Settings</a>
-        </div>
+
+	<div class="modal fade" id="p1Modal" role="dialog">
+    	<div class="modal-dialog modal-sm">
+	      	<div class="modal-content">
+	        	<div class="modal-header">
+	          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+	          		<h3 class="modal-title">Player 1 Sign In</h3>
+	        	</div>
+		        
+		        <div class="modal-body">
+		          	<form role="form" action="" method="post" >
+						<div>
+							<div class="form-group">
+								<label for="InputName">Username</label>
+								<div class="input-group">
+									<input type="text" class="form-control" name="InputName" id="usernme" placeholder="Enter Username" required>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="InputEmail">Password</label>
+								<div class="input-group">
+									<input type="password" class="form-control" id="passwrd" name="InputEmail" placeholder="Enter Password" required>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+								</div>
+							</div>
+						</div>
+					</form>
+		        </div>
+	        	<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="log" onclick="LogIn();" data-dismiss="modal">Login</button>
+	       		 </div>
+			</div>
+    	</div>
+    </div>
+
+	<div class="modal fade" id="p2Modal" role="dialog">
+			<div class="modal-dialog modal-sm">
+		
+			  <!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h3 class="modal-title">Player 2 Sign In</h3>
+					</div>
+					
+					<div class="modal-body">
+						<form role="form" action="" method="post" >
+							<div>
+								<div class="form-group">
+									<label for="InputName">Username</label>
+									<div class="input-group">
+										<input type="text" class="form-control" name="InputName" id="usernme" placeholder="Enter Username" required>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="InputEmail">Password</label>
+									<div class="input-group">
+										<input type="password" class="form-control" id="passwrd" name="InputEmail" placeholder="Enter Password" required>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="log" onclick="LogIn();" data-dismiss="modal">Login</button>
+					 </div>
+				</div>
+			</div>
+		</div>
+
+	
+	
+	
+		
+		 <!-- JavaScript -->
 		<script type="text/javascript" src="ServerInterface.js"></script>
 		<script type="text/javascript" src="scriptForSignIn.js"></script>
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/owl.carousel.js"></script>
+		<script src="js/script.js"></script>
+		<!-- StikyMenu -->
+		<script src="js/stickUp.min.js"></script>
+		<script type="text/javascript">
+		  jQuery(function($) {
+			$(document).ready( function() {
+			  $('.navbar-default').stickUp();
+			  
+			});
+		  });
+		
+		</script>
+		<!-- Smoothscroll -->
+		<script type="text/javascript" src="js/jquery.corner.js"></script> 
+		<script src="js/wow.min.js"></script>
+		<script>
+		 new WOW().init();
+		</script>
+		<script src="js/classie.js"></script>
+		<script src="js/uiMorphingButton_inflow.js"></script>
+		<!-- Magnific Popup core JS file -->
+		<script src="js/jquery.magnific-popup.js"></script> 
+
 	
     </body>
 </html>

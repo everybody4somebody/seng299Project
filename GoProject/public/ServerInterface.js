@@ -50,10 +50,10 @@ class ServerInterface{
      * @param stop {Date} when the timer was stopped
      * @param cb {function} to call when request comes back. 
      */
-    addUser(Username, Userpassword,cb){
+    addUser(Username, Userpassword, cb){
         console.log("Rhere?")
         this._sendData(
-            {Username : Username, Userpassword : Userpassword},
+            {Username : Username, Userpassword : Userpassword, 'wins': 0, 'losses':0, 'ELO':0},
             "/add",
             function(err){
                 if(err){
@@ -120,11 +120,30 @@ class ServerInterface{
      *          2) an object that represents the response from the server.
      */
      getData(callback) {
-        console.log("sending GET to /data");
+        console.log("sending GET to /DBdata");
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/data", true);
 		//xhr.open("GET", "/DBdata", true);
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+
+            // this function is executed when the request comes
+            // back from the server.
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                callback(null, JSON.parse(xhr.responseText));
+            }else if(xhr.readyState == 4 && xhr.status !== 200){
+                callback(xhr.status, null);
+            }
+        };
+    }
+	DBgetData(callback) {
+        console.log("sending GET to /DBdata");
+
+        var xhr = new XMLHttpRequest();
+		xhr.open("GET", "/DBdata", true);
         xhr.send();
 
         xhr.onreadystatechange = function () {

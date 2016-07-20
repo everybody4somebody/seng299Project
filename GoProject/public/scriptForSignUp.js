@@ -1,5 +1,5 @@
 var serverInterface = new ServerInterface("localhost", 3000);
-window.onload = function(){
+/*window.onload = function(){
 	document.getElementById('PlayerSignUp').onclick = function SignUp(){
 		
 		var vis = document.getElementById("SignUpvisible");
@@ -7,10 +7,13 @@ window.onload = function(){
 		vis.style.visibility = "visible";
 
 	}
-}
+}*/
 function add() {
 	var username = document.getElementById("username").value;
 	var pass = document.getElementById("pass").value;
+	var wins = 0;
+	var losses = 0;
+	var ELO = 0;
 	
     serverInterface.addUser(
 		username,

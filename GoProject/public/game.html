@@ -1,27 +1,35 @@
 
 <html>
     <head>
-        <link href='/style.css' rel='stylesheet' type='text/css'>
+        <link href='/game.css' rel='stylesheet' type='text/css'>
 
     </head>
     <body>
-    
-        <h1>My Go Board</h1>
 
-        <div style='width:100%;'>
-            <div id='canvas'>
+    <table>
+        <tr>      
+            <td class="playerBox" id="p1">
+                <h2>Player 1</h2></br>
+                <button id="player1-pass">Pass</button>
+            </td>
 
-            </div>
-        </div>
+            <td class="board">
+                <div id='canvas'></div>
+            </td>
 
-        <script type="text/javascript" src="jquery.min.js"></script>
+            <td class="playerBox" id="p2">
+                <h2>Player 2</h2><br>
+                <button id="player2-pass">Pass</button>
+            </td>
+        </tr>
+
+    </table>
+
+        <script type="text/javascript"  src="jquery.min.js"></script>
         <script type="text/javascript"  src="svgFactory.js"></script>
         <script type="text/javascript"  src="script.js"></script>
-		<script type="text/javascript"  src="NextMoveScript.js"></script>
-		<script type="text/javascript"  src="Board.js"></script>
-        <script>
-            init(); 
-        </script>
-
+        <script type="text/javascript"  src="NextMoveScript.js"></script>
+        <script type="text/javascript"  src="Board.js"></script>
+        <script>init();</script>
     </body>
 </html>
