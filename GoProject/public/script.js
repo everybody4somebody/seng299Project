@@ -5,6 +5,10 @@
 var boardState = null;
 var armies = [];
 
+var blanks = [];
+var whiteScore = 7.5;
+var blackScore = 0.0;
+
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
         console.log("Response for /data: "+textStatus);  
@@ -98,13 +102,6 @@ $(document).ready(function(){
     });
 });
 
-
-$(document).ready(function(){
-    $(document).on('click', '.zero', function (event) {
-		//getMove(this.getAttribute("id"));
-        getRandomMove(this.getAttribute('id'));
-    });
-});
 
 function getNextMoveColour(m){
     switch(m._c){
@@ -200,6 +197,12 @@ function checkDeletions(board){
     var counter = 0;
     while (counter < numArmies){
         if (armies[counter].liberties == 0){
+            if (armies[counter].colour == BLACK){
+                blackScore = blackScore - armies[counter].size;
+            }
+            if (armies[counter].colour == WHITE){
+                whiteScore = whiteScore - armies[counter].size;
+            }
             state.bool = true;
             console.log("An army has been defeated");
             var numTokens = armies[counter].tokens.length;
@@ -373,7 +376,8 @@ $(document).ready(function(){
 
 function Pass(){
     if (boardState.lastMove._pass == true){
-        alert("GAME OVER");
+        countAreaScore();
+        alert("GAME OVER" + " whiteScore: " + whiteScore + " blackScore: " + blackScore);
     }else{
         var newMove = new Move();
         newMove._x = 0;
@@ -395,4 +399,92 @@ function Pass(){
         });
     }
     
+}
+
+
+function countAreaScore(){
+    var visited = [];
+    var toVisit = [];
+    var size = boardState.board.length;
+    //Iterates accross every intersection on the board
+    for(i = 0; i < (size - 1); i++){
+        for(j = 0; j < (size - 1); j++){
+            //Creating used values
+            console.log("i:" + i + " j:" + j);
+            var colour = boardState.board[i][j];
+            console.log("test");
+            var blanks = 0;
+            var colourSeen = 0;
+            //If the current intersection has not been visited and it is blank add it to the list of intersections to visit
+            //console.log(colour);
+            if(!contains(visited, [i,j]) && colour == 0){
+                //console.log("I made it bro");
+                toVisit.push([i,j]);
+            }
+            //Iterates accross the list of intersections that need to be visited until it is empty
+            while(toVisit.length > 0){
+                
+                //Grabs the rear of the list and checks colour
+                coords = toVisit.pop();
+                colour = boardState.board[coords[0]][coords[1]];
+                //If we have not seen the colour we add it to the seen value
+                //console.log(boardState.board[coords[0]][coords[1]]);
+                if(colourSeen != 3 && colourSeen != colour){
+                    //console.log("stuff happened");
+                    colourSeen += colour;
+                }
+                //Double checking to make sure we have not already visited this intersection
+                console.log("Coords: " + coords);
+                if(!contains(visited, coords)){
+                    //Four conditionals for adjacent intersentions
+                    //Each checks if we have already visited it and if it is in the bounds of the matrix
+                    if(colour == 0){
+                        if(coords[0] > 0 && !contains(visited, [coords[0] - 1, coords[1]])){
+                            toVisit.push([coords[0] - 1, coords[1]]);
+                        }
+                        if(coords[0] < (size - 1) && !contains(visited, [coords[0] + 1, coords[1]])){
+                            toVisit.push([coords[0] + 1, coords[1]]);
+                        }
+                        if(coords[1] > 0 && !contains(visited, [coords[0], coords[1] - 1])){
+                            toVisit.push([coords[0], coords[1] - 1]);
+                        }
+                        if(coords[1] < (size - 1) && !contains(visited, [coords[0], coords[1] + 1])){
+                            toVisit.push([coords[0], coords[1] + 1]);
+                        }
+                        //If the intersection is a blank we push it into the visited list and we increment the blank counter
+                        //We do not add coloured since they can border multiple blank spaces                    
+                        console.log("marked as visited " + coords);
+                        visited.push(coords);
+                        blanks += 1;
+                    }
+                }
+            }
+            //TODO: increment score here using blanks counter
+            if(colourSeen != 3){
+                if(colourSeen == 1){
+                    blackScore += blanks;
+                } else if(colourSeen == 2){
+                    whiteScore += blanks;
+                }
+            }
+        }
+    }
+    
+    //console.log(armies);
+    //console.log(blanks);
+}
+
+function contains(myArray, myValue){
+    var exists = false;
+    if(myArray.length > 0){
+        for(w = 0; w < myArray.length; w++){
+            if(equals(myArray[w], myValue)) exists = true;
+        }
+    }
+    return exists;
+}
+
+function equals(a, b){
+    if(a[0] == b[0] && a[1] == b[1]) return true;
+    else return false;
 }
