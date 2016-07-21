@@ -385,27 +385,30 @@ function countAreaScore(){
 	var visited = [];
 	var toVisit = [];
 	var size = boardState.board[0].length();
-	
+	//Iterates accross every intersection on the board
 	for(i = 0; i < size; i++){
 		for(for j = 0; j < size; j++){
+			//Creating used values
 			var colour = boardState.board[i, j];
 			var blanks = 0;
 			var coloursSeen = 0;
-			
+			//If the current intersection has not been visited and it is blank add it to the list of intersections to visit
 			if(!contains(visited, [i,j]) && colour == 0){
 				toVisit.push([i,j]);
 			}
-			
-			
+			//Iterates accross the list of intersections that need to be visited until it is empty
 			while(toVisit.length() > 0){
+				//Grabs the rear of the list and checks colour
 				coords = toVisit.pop();
 				colour = boardState.board[coords];
-				
+				//If we have not seen the colour we add it to the seen value
 				if(coloursSeen != 3 && coloursSeen != colour){
 					coloursSeen += colour;
 				}
-				
+				//Double checking to make sure we have not already visited this intersection
 				if(!contains(visited, coords)){
+					//Four conditionals for adjacent intersentions
+					//Each checks if we have already visited it and if it is in the bounds of the matrix
 					if(coords[0] > 0 && !contains(visited, [coords[0] - 1, coords[1]])){
 						toVisit.push([coords[0] - 1, coords[1]]);
 					}
@@ -418,14 +421,15 @@ function countAreaScore(){
 					if(coords[1] < size && !contains(visited, [coords[0], coords[1] + 1])){
 						toVisit.push([coords[0], coords[1] + 1]);
 					}
-					
+					//If the intersection is a blank we push it into the visited list and we increment the blank counter
+					//We do not add coloured since they can border multiple blank spaces
 					if(colur == 0){
 						visited.push([coords]);
 						blanks += 1;
 					}
 				}
 			}
-			//increment score here using blanks counter
+			//TODO: increment score here using blanks counter
 		}
 	}
 	
