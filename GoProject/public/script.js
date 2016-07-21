@@ -4,14 +4,29 @@
 
 var boardState = null;
 var armies = [];
-
+//****************************************
+var blanks = [];
+var whiteScore = 7.5;
+var blackScore = 0.0;
+//****************************************
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
         console.log("Response for /data: "+textStatus);  
 
 		boardState = data;
-        cb(data);
+        cb(data);  
+
+    }); 
+}
+
+
+function newBoard(cb){
+    $.get("/new", function(data, textStatus, xhr){
+        console.log("Response for /new: "+textStatus);  
+
+        boardState = data;
+        cb(data);  
 
     }); 
 }
@@ -19,6 +34,8 @@ function getData(cb){
 
 
 function drawBoard(state){
+
+    console.log(state);
 
     var canvas = $("#canvas"); 
     var W = 600, H = 600; 
@@ -57,17 +74,13 @@ function drawBoard(state){
 
 }
 
-
-
-
-
+function idkwut2callit(){
+    newBoard(drawBoard);
+}
 
 
 function init(){
-
-    // do page load things here...
-
-    console.log("Initalizing Page...."); 
+    console.log("Initalizing Page....");
     getData(drawBoard); 
 }
 
@@ -89,40 +102,84 @@ $(document).ready(function(){
     });
 });
 
+
+function getNextMoveColour(m){
+    switch(m._c){
+        
+        case Board.BLACK:
+            return Board.WHITE;
+            break;
+        case Board.WHITE:
+            return Board.BLACK;
+            break;
+        case Board.NONE:
+            return Board.BLACK;
+            break;
+        default:
+            return Board.BLACK;
+            break;
+    }
+}
+
+
+// Sends request to server to retrieve a move from the random address of the AI
+function getRandomMove(id){
+
+    boardState.position = id;
+    boardState.lastMove.x = id.substr(0, id.indexOf(','));
+    boardState.lastMove.y = id.substr(id.indexOf(',') + 1);
+    boardState.lastMove.c = getNextMoveColour(boardState.lastMove.c);
+    $.ajax({
+        type: 'POST',
+        url : '/randmove',
+        dataType: "json",
+        data : JSON.stringify(boardState), 
+        contentType : "application/json",
+        success : function(data){
+            console.log(data);
+            console.log(status);
+            boardState = data;
+            drawBoard(data);    
+        }
+    });
+
+}
+
+
 function getMove(ID){
-	boardState.position = ID;
-	console.log(boardState.position);
-	
-	$.ajax({
-		type: 'POST',
-		url: '/move',
-		dataType: "json",
-		data : JSON.stringify(boardState),
-		contentType : "application/json",
-		success : function(data){
-			console.log(data);
-			console.log(status);
-			boardState = data;
-			armies = findArmies(boardState.board);
-			var checkDeletion = checkDeletions(boardState.board);
-			boardState.board = checkDeletion.newBoard;
-			drawBoard(boardState);
-			
-		if 	(checkDeletion.bool){
-			$.ajax({
-			type: 'POST',
-			url: '/delete',
-			dataType: "json",
-			data : JSON.stringify(boardState),
-			contentType : "application/json",
-			success : function(data){
-				console.log(data);
-				console.log(status);
-			}
-		});
-		}
-		}
-	});
+    boardState.position = ID;
+    console.log(boardState.position);
+    
+    $.ajax({
+        type: 'POST',
+        url: '/move',
+        dataType: "json",
+        data : JSON.stringify(boardState),
+        contentType : "application/json",
+        success : function(data){
+            console.log(data);
+            console.log(status);
+            boardState = data;
+            armies = findArmies(boardState.board);
+            var checkDeletion = checkDeletions(boardState.board);
+            boardState.board = checkDeletion.newBoard;
+            drawBoard(boardState);
+            
+        if  (checkDeletion.bool){
+            $.ajax({
+            type: 'POST',
+            url: '/delete',
+            dataType: "json",
+            data : JSON.stringify(boardState),
+            contentType : "application/json",
+            success : function(data){
+                console.log(data);
+                console.log(status);
+            }
+        });
+        }
+        }
+    });
 }
 
 
@@ -130,98 +187,105 @@ function getMove(ID){
 
 
 function checkDeletions(board){
-	
-	 var state = { 
+    
+     var state = { 
         newBoard  : board,
-		bool : false,
+        bool : false,
     }
-	
-	var numArmies = armies.length;
-	var counter = 0;
-	while (counter < numArmies){
-		if (armies[counter].liberties == 0){
-			state.bool = true;
-			console.log("An army has been defeated");
-			var numTokens = armies[counter].tokens.length;
-			var internalCounter = 0;
-			while (internalCounter < numTokens){
-				state.newBoard[armies[counter].tokens[internalCounter]._pos[0]][armies[counter].tokens[internalCounter]._pos[1]] = 0;
-				internalCounter = internalCounter + 1;
+    
+    var numArmies = armies.length;
+    var counter = 0;
+    while (counter < numArmies){
+        if (armies[counter].liberties == 0){
+			//***************************************************************************
+			if (armies[counter].colour == BLACK){
+				blackScore = blackScore - armies[counter].size;
 			}
-		}
-		counter = counter + 1;
-	}
-	
-	
-	return state;
+			if (armies[counter].colour == WHITE){
+				whiteScore = whiteScore - armies[counter].size;
+			}
+			//***************************************************************************
+            state.bool = true;
+            console.log("An army has been defeated");
+            var numTokens = armies[counter].tokens.length;
+            var internalCounter = 0;
+            while (internalCounter < numTokens){
+                state.newBoard[armies[counter].tokens[internalCounter]._pos[0]][armies[counter].tokens[internalCounter]._pos[1]] = 0;
+                internalCounter = internalCounter + 1;
+            }
+        }
+        counter = counter + 1;
+    }
+    
+    
+    return state;
 }
 
 
 
 
 function checkValidity(ID){
-	var isValid = false;
-	var tmpX = (parseInt(ID[0],10) - 1);
-	var tmpY = (parseInt(ID[2],10) - 1);
-	var colour = getNextMoveColour(boardState.lastMove);
-	console.log(colour);
-	
-	
-	
-	if (!((tmpX-1) < 0)){
-		if (boardState.board[tmpX - 1][tmpY] == 0 || boardState.board[tmpX - 1][tmpY] == colour){
-			isValid = true;
-		}
-	}
-		
-	
-	if(!((tmpX + 1) > (boardState.size - 1))){
-		if (boardState.board[tmpX + 1][tmpY] == 0 || boardState.board[tmpX + 1][tmpY] == colour){
-			isValid = true;
-		}
-	}
-		
-	
-	if (!((tmpY - 1) < 0)){
-		if (boardState.board[tmpX][tmpY - 1] == 0 || boardState.board[tmpX][tmpY - 1] == colour){
-			isValid = true;
-		}
-	}
-		
-	
-	if (!((tmpY + 1) > (boardState.size - 1))){
-		if (boardState.board[tmpX][tmpY + 1] == 0 || boardState.board[tmpX][tmpY + 1] == colour){
-			isValid = true;
-		}
-	}
-		
-	
-	
-	
-	
-	
-	return isValid;
+    var isValid = false;
+    var tmpX = (parseInt(ID.substr(0, ID.indexOf(',')),10) - 1);
+    var tmpY = (parseInt(ID.substr(ID.indexOf(',') + 1),10) - 1);
+    var colour = getNextMoveColour(boardState.lastMove);
+    console.log(colour);
+    
+    
+    
+    if (!((tmpX-1) < 0)){
+        if (boardState.board[tmpX - 1][tmpY] == 0 || boardState.board[tmpX - 1][tmpY] == colour){
+            isValid = true;
+        }
+    }
+        
+    
+    if(!((tmpX + 1) > (boardState.size - 1))){
+        if (boardState.board[tmpX + 1][tmpY] == 0 || boardState.board[tmpX + 1][tmpY] == colour){
+            isValid = true;
+        }
+    }
+        
+    
+    if (!((tmpY - 1) < 0)){
+        if (boardState.board[tmpX][tmpY - 1] == 0 || boardState.board[tmpX][tmpY - 1] == colour){
+            isValid = true;
+        }
+    }
+        
+    
+    if (!((tmpY + 1) > (boardState.size - 1))){
+        if (boardState.board[tmpX][tmpY + 1] == 0 || boardState.board[tmpX][tmpY + 1] == colour){
+            isValid = true;
+        }
+    }
+        
+    
+    
+    
+    
+    
+    return isValid;
 }
 
 
 function getNextMoveColour(m){
-	switch(m._c){
-		
-		case BLACK:
-			return WHITE;
-			break;
-		case WHITE:
-			return BLACK;
-			break;
-		case NONE:
-			return BLACK;
-			break;
-		default:
-			return BLACK;
-			break;
-	}
+    switch(m._c){
+        
+        case BLACK:
+            return WHITE;
+            break;
+        case WHITE:
+            return BLACK;
+            break;
+        case NONE:
+            return BLACK;
+            break;
+        default:
+            return BLACK;
+            break;
+    }
 }
-
 
 
 function findArmies(board) {
@@ -251,7 +315,7 @@ function findArmies(board) {
             return false;
         else if (current.checked == true)
             return false;
-        else if (current.colour == 0)
+		else if (current.colour == 0)
             return true;
         else if (current.colour != army.colour)
             return false;
@@ -285,12 +349,14 @@ function findArmies(board) {
         for (var j = 0; j < complexBoard.length; j++) {
             current = complexBoard[i][j];
             
-            if (current.colour == 0)
-                continue;
+            if (current.colour == 0){
+				continue;
+			} 
             
             if (current.checked == false) {
-                armies.push(new Army(current.colour));
-                _findArmiesRec(current, armies[armies.length-1]);
+					armies.push(new Army(current.colour));
+					_findArmiesRec(current, armies[armies.length-1]);
+                
             }
         }
     }
@@ -298,41 +364,76 @@ function findArmies(board) {
     return armies;
 
 }
-
+//****************************************************************
 $(document).ready(function(){
     $(document).on('click', '.zero', function (event) {
-		if (checkValidity(this.getAttribute("id"))){
-			getMove(this.getAttribute("id"));
-		}else{
-			alert("That move is invalid");
-		}
+        if (checkValidity(this.getAttribute("id"))){
+            getMove(this.getAttribute("id"));
+			//getRandomMove(this.getAttribute('id'));
+        }else{
+            alert("That move is invalid");
+        }
     });
 });
+//****************************************************************
+
+
+
+//****************************************************************
+function countAreaScore(){
+	
+	//recursive(0,0);
+	
+	console.log(armies);
+	console.log(blanks);
+}
+
+
+/*
+function recursive(x, y){
+	if (boardState.board[x][y] == 0){
+		//do some shit
+		temp1 = recursive(x+1, y);
+		temp2 = recursive(x, y + 1);
+		temp3 = recursive(x - 1, y);
+		temp4 = recursive(x, y - 1);
+		
+		returnVal = {'xy' : [[x,y]], 'colour' : []}
+		returnVal.xy
+		
+	}
+	
+}
+*/
+//****************************************************************
 
 
 
 function Pass(){
-	if (boardState.lastMove._pass == true){
-		alert("GAME OVER");
-	}else{
-		var newMove = new Move();
-		newMove._x = 0;
-		newMove._y = 0;
-		newMove._c = 0;
-		newMove._pass = true;
-		console.log(newMove);
-		boardState.lastMove = newMove;
-		$.ajax({
-			type: 'POST',
-			url: '/delete',
-			dataType: "json",
-			data : JSON.stringify(boardState),
-			contentType : "application/json",
-			success : function(data){
-				console.log(data);
-				console.log(status);
-			}
-		});
-	}
-	
+    if (boardState.lastMove._pass == true){
+		//***********************************************************************************
+		countAreaScore();
+        alert("GAME OVER" + " whiteScore: " + whiteScore + " blackScore: " + blackScore);
+		//***********************************************************************************
+    }else{
+        var newMove = new Move();
+        newMove._x = 0;
+        newMove._y = 0;
+        newMove._c = getNextMoveColour(boardState.lastMove);
+        newMove._pass = true;
+        console.log(newMove);
+        boardState.lastMove = newMove;
+        $.ajax({
+            type: 'POST',
+            url: '/delete',
+            dataType: "json",
+            data : JSON.stringify(boardState),
+            contentType : "application/json",
+            success : function(data){
+                console.log(data);
+                console.log(status);
+            }
+        });
+    }
+    
 }

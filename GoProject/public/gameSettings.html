@@ -1,60 +1,43 @@
 
 <html>
     <head>
-        <link href='/gameSettings.css' rel='stylesheet' type='text/css'>
+        <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+
+        <script type="text/javascript"  src="Board.js"></script>
+        <script type="text/javascript"  src="NextMoveScript.js"></script>
+        <script type="text/javascript" src="jquery.min.js"></script>
+        
+        <script type="text/javascript"  src="svgFactory.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="scriptForGameSettings.js"></script>
     </head>
     <body>
     
         <h1 align="center">Game Settings</h1>
 
-        <div class='PlayersBoxes'>
-			<div class ="PlayerBox">
-				<h2>Player 1</h2></br>
-				
-				<div class="button_holder">
-					<button id="SignIn" onclick="SignInAppear()" >Sign In</button>
-				</div></br>
-					
-				<div id= "visiblity "style= "text-align: center">
-					<form action="demo_form.asp">
-					  UserName <input type="text" name="UserName"><br>
-					  Password <input type="text" name="Password"><br>
-					  <button type="button" >Log In</button>
-					</form>
-				</div></br>
-
-				<div>
-					<button id="VSAI">VS AI</button>
-				</div>
-			</div>
-			
-			<div class ="PlayerBox">
-				<h2>Player 2</h2></br>
-				<div class="button_holder">
-					<button id="SignIn">Sign In</button>
-				</div></br>
-				<div style= "text-align: center">
-					<form action="demo_form.asp">
-					  UserName <input type="text" name="UserName"><br>
-					  Password <input type="text" name="Password"><br>
-					  <button type="button" >Log In</button>
-					</form>
-				</div></br>
-				<div>
-				<button  id="VSAI">VS AI</button>
-				</div>
-			</div>
-        </div>
-		</br>
-
+		<div align="center">
+			<p>Your Colour</p>
+			<form action = " ">
+				<input type = "checkbox" name = "Token" value = "Black"> Black
+				<input type = "checkbox" name = "Token" value = "White"> White
+			</form>
+		</div>
+		<div align="center">
+			<p>Board Size</p>
+			<select align="center" id = "board_size"> 
+				<option>9x9</option>
+				<option>13x13</option>
+				<option>19x19<option>
+			</select>
+		</div>
+		<div align="center">
+			<form action = " ">
+				<input type = "checkbox" name = "Token" value = "Black"> Black
+				<input type = "checkbox" name = "Token" value = "White"> White
+			</form>
+		</div>
         <div class="button_holder">
-            <a href="http://localhost:3000/game.html" id="play_button" class="btn">Play Go</a>
+            <a href="#" id="play_button" class="btn">Play Go</a>
         </div>
-
-        <div class="button_holder">
-            <button type='button' class="btn" id='profiles_button'>Profiles</button>
-        </div>
-
-
     </body>
 </html>
