@@ -9,6 +9,7 @@ var blanks = [];
 var whiteScore = 7.5;
 var blackScore = 0.0;
 
+
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
         console.log("Response for /data: "+textStatus);  
@@ -26,10 +27,8 @@ function newBoard(cb){
 
         boardState = data;
         cb(data);  
-
     }); 
 }
-
 
 
 function drawBoard(state){
@@ -71,8 +70,8 @@ function drawBoard(state){
     }
 	canvas.empty();
     canvas.append(svg);
-
 }
+
 
 function idkwut2callit(){
     newBoard(drawBoard);
@@ -84,6 +83,7 @@ function init(){
     getData(drawBoard); 
 }
 
+
 $(document).ready(function(){
     $(document).on('mouseover', '.zero', function (event) {
 
@@ -92,12 +92,25 @@ $(document).ready(function(){
     });
 });
 
+
 $(document).ready(function(){
     $(document).on('mouseout', '.zero', function (event) {
 
         if (this.getAttribute('fill-opacity') == 0.8){
             this.setAttribute('fill', 'white');
             this.setAttribute('fill-opacity', '0');
+        }
+    });
+});
+
+
+
+$(document).ready(function(){
+    $(document).on('click', '.zero', function (event) {
+        if (checkValidity(this.getAttribute("id"))){
+            getMove(this.getAttribute("id"));
+        }else{
+            alert("That move is invalid");
         }
     });
 });
@@ -183,9 +196,6 @@ function getMove(ID){
 }
 
 
-
-
-
 function checkDeletions(board){
     
      var state = { 
@@ -220,8 +230,6 @@ function checkDeletions(board){
 }
 
 
-
-
 function checkValidity(ID){
     var isValid = false;
     var tmpX = (parseInt(ID[0],10) - 1);
@@ -229,40 +237,26 @@ function checkValidity(ID){
     var colour = getNextMoveColour(boardState.lastMove);
     console.log(colour);
     
-    
-    
     if (!((tmpX-1) < 0)){
         if (boardState.board[tmpX - 1][tmpY] == 0 || boardState.board[tmpX - 1][tmpY] == colour){
             isValid = true;
         }
     }
-        
-    
     if(!((tmpX + 1) > (boardState.size - 1))){
         if (boardState.board[tmpX + 1][tmpY] == 0 || boardState.board[tmpX + 1][tmpY] == colour){
             isValid = true;
         }
-    }
-        
-    
+    }  
     if (!((tmpY - 1) < 0)){
         if (boardState.board[tmpX][tmpY - 1] == 0 || boardState.board[tmpX][tmpY - 1] == colour){
             isValid = true;
         }
     }
-        
-    
     if (!((tmpY + 1) > (boardState.size - 1))){
         if (boardState.board[tmpX][tmpY + 1] == 0 || boardState.board[tmpX][tmpY + 1] == colour){
             isValid = true;
         }
     }
-        
-    
-    
-    
-    
-    
     return isValid;
 }
 
@@ -284,7 +278,6 @@ function getNextMoveColour(m){
             break;
     }
 }
-
 
 
 function findArmies(board) {
@@ -340,7 +333,6 @@ function findArmies(board) {
         army.addToken(current);
         
         return false;
-
    }
 
     var current = null;
@@ -357,21 +349,8 @@ function findArmies(board) {
             }
         }
     }
-    
     return armies;
-
 }
-
-$(document).ready(function(){
-    $(document).on('click', '.zero', function (event) {
-        if (checkValidity(this.getAttribute("id"))){
-            getMove(this.getAttribute("id"));
-        }else{
-            alert("That move is invalid");
-        }
-    });
-});
-
 
 
 function Pass(){
@@ -459,7 +438,6 @@ function countAreaScore(){
                     }
                 }
             }
-            //TODO: increment score here using blanks counter
             if(colourSeen != 3){
                 if(colourSeen == 1){
                     blackScore += blanks;
@@ -474,6 +452,7 @@ function countAreaScore(){
     //console.log(blanks);
 }
 
+
 function contains(myArray, myValue){
     var exists = false;
     if(myArray.length > 0){
@@ -483,6 +462,7 @@ function contains(myArray, myValue){
     }
     return exists;
 }
+
 
 function equals(a, b){
     if(a[0] == b[0] && a[1] == b[1]) return true;
