@@ -50,12 +50,25 @@ app.get("/data", function (req, res) {
 
 app.get("/replay", function (req, res) {
     console.log("GET Request to: /replay");
+    console.log(req.body);
     DBInterface.getReplays('test', 
 		function(replay){
 			console.log(replay)
 			res.json(replay);
 		}
 	);
+});
+
+app.get("/replayTest", function (req, res) {
+    console.log("GET Request to: /replayTest");
+    console.log(req.url);
+	var user = req.url.substring(12);
+    DBInterface.getReplays(user, 
+		function(replay){
+			res.json(replay);
+		}
+	);
+	
 });
 
 
