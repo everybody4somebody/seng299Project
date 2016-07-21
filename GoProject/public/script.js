@@ -430,6 +430,13 @@ function countAreaScore(){
 				}
 			}
 			//TODO: increment score here using blanks counter
+			if(colourSeen != 3){
+				if(colourSeen == 1){
+					//whiteScore += blanks;
+				} else if(colourSeen == 2){
+					//blackScore += blanks;
+				}
+			}
 		}
 	}
 	
