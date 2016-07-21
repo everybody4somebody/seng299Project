@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Go Profile Login">
+    <meta name="author" content="http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects">
+
+    <title>Profile Login</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+    
+    <link href="css/general.css" rel="stylesheet">
+
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/magnific-popup.css"> 
+    <script src="js/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <a href="http://localhost:3000/index.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Logout</a>
+    </div>
+    
+    <div id="player-selection" class="content-section-a" style="border-top: 0">
+        <div class="container">
+            <div class="col-sm-6 col-md-offset-3 text-center wrap_title">
+                <h2>Profiles</h2>
+            </div>
+        </div>
+        
+        <div class="container">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a data-toggle="tab" href="#user-information">User Information</a></li>
+                <li><a data-toggle="tab" href="#statistics">Statistics</a></li>
+                <li><a data-toggle="tab" href="#replays">Replays</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="user-information" class="tab-pane fade in active" style="padding: 20px; background-color: #ffffff">
+                    <h3>User Information</h3>
+                    <h5>Username:</h5>
+                </div>
+                
+                <div id="statistics" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
+                  <h3>Statistics</h3>
+                  <h5>Total Games Played:<span id="total-games"></span></h5>
+                  <h5>Wins:<span id="wins"></span></h5>
+                  <h5>Loses:<span id="loses"></span></h5>
+                  </br>
+                  <h5>Win Streak:<span id="win-streak"></span></h5>
+                  <h5>Longest Win Streak:<span id="longest-win-streak"></span></h5>
+                  <h5>Elo:<span id="elo"></span></h5>
+
+                </div>
+                
+                <div id="replays" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
+                    <h3>Replays</h3>
+                    </br>
+                    <div class="form-group">
+                        <select class="form-control" id="sel1">
+                            <option>Replay 1</option>
+                            <option>Replay 2</option>
+                            <option>Replay 3</option>
+                        </select>
+                    </div>
+                    <a href="http://localhost:3000/index.html" class="btn btn-primary">View Replay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/owl.carousel.js"></script>
+    <script src="js/script.js"></script>
+    <!-- StikyMenu -->
+    <script src="js/stickUp.min.js"></script>
+    <script type="text/javascript">
+      jQuery(function($) {
+        $(document).ready( function() {
+          $('.navbar-default').stickUp();
+          
+        });
+      });
+    </script>
+    <!-- Smoothscroll -->
+    <script type="text/javascript" src="js/jquery.corner.js"></script> 
+    <script src="js/wow.min.js"></script>
+    <script>
+     new WOW().init();
+    </script>
+    <script src="js/classie.js"></script>
+    <script src="js/uiMorphingButton_inflow.js"></script>
+    <!-- Magnific Popup core JS file -->
+    <script src="js/jquery.magnific-popup.js"></script> 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+
+</html>

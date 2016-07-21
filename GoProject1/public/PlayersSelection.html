@@ -1,0 +1,61 @@
+
+<html>
+    <head>
+        <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="scriptForSignIn.js"></script>
+    </head>
+    <body>
+    
+        <h1 align="center">Game Settings</h1>
+
+        <div class='PlayersBoxes'>
+			<div class ="PlayerBox">
+				<h2>Player 1</h2></br>
+				
+				<div>
+					<button id="SignIn" onclick="Sign()" >Sign In</button>
+				</div></br>
+					
+				<div id="credentials1" style= "text-align: center; visibility: hidden;">
+					<form action="demo_form.asp">
+					  UserName <input type="text" name="UserName"><br>
+					  Password <input type="text" name="Password"><br>
+					  <button type="button" >Log In</button>
+					</form>
+				</div></br>
+
+				<div>
+					<button id="VSAI">VS AI</button>
+				</div>
+			</div>
+			
+			<div class ="PlayerBox" id = "AI">
+				<h2 id = "name2">Player 2</h2></br>
+				<div class="button_holder">
+					<button id="SignIn">Sign In</button>
+				</div></br>
+				<div id= "credentials2" style= "text-align: center; visibility: hidden;">
+					<form action="demo_form.asp">
+					  UserName <input type="text" name="UserName"><br>
+					  Password <input type="text" name="Password"><br>
+					  <button type="button" >Log In</button>
+					</form>
+				</div></br>
+				<div>
+				<button id="VSAI">VS AI</button>
+				</div>
+			</div>
+        </div>
+		</br>
+
+        <div class="button_holder">
+            <a href="http://localhost:3000/game.html" id="play_button" class="btn">Play Go</a>
+        </div>
+
+        <div class="button_holder">
+            <button type='button' class="btn" id='profiles_button'>Profiles</button>
+        </div>
+
+
+    </body>
+</html>

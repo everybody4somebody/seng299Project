@@ -44,7 +44,7 @@ class MemoryDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes two parameters: 1) error parameter, 2) data returned from query.
      */
-    getAllTasks(callback) {
+    getAllUsers(callback) {
         callback(null, this._data);
     }
 
@@ -55,12 +55,30 @@ class MemoryDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes a single error parameter.
      */
-    addTask(task, callback) {
-        task.id = (new Date()).getTime(); 
-        this._data.push(task);
+    addUser(User, callback) {
+        console.log("here?")
+        User.id = (new Date()).getTime(); 
+        this._data.push(User);
         callback(null);
     }
+    getUser(user,callback) {
+        console.log("reach here?")
+        callback(null, this._data);
+        /*var indexToFind = null;
 
+        for (var i = 0; i < this._data.length; i++) {
+            if (this._data[i].Username === username) {
+                indexToFind = i;
+                break;
+            }
+        }
+
+        if (indexToFind !== null) {
+            this._data.splice(indexToFind, 1);
+        }
+        
+        callback(null);*/
+    }
     /**
      * Remove a task from the memory store.
      *
