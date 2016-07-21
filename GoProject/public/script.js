@@ -380,29 +380,102 @@ $(document).ready(function(){
 
 
 //****************************************************************
+
 function countAreaScore(){
+	var visited = [];
+	var toVisit = [];
+	var size = boardState.board[0].length();
 	
-	//recursive(0,0);
-	
-	console.log(armies);
-	console.log(blanks);
-}
-
-
-/*
-function recursive(x, y){
-	if (boardState.board[x][y] == 0){
-		//do some shit
-		temp1 = recursive(x+1, y);
-		temp2 = recursive(x, y + 1);
-		temp3 = recursive(x - 1, y);
-		temp4 = recursive(x, y - 1);
-		
-		returnVal = {'xy' : [[x,y]], 'colour' : []}
-		returnVal.xy
-		
+	for(i = 0; i < size; i++){
+		for(for j = 0; j < size; j++){
+			var colour = boardState.board[i, j];
+			var blanks = 0;
+			var coloursSeen = 0;
+			
+			if(!contains(visited, [i,j]) && colour == 0){
+				toVisit.push([i,j]);
+			}
+			
+			
+			while(toVisit.length() > 0){
+				coords = toVisit.pop();
+				colour = boardState.board[coords];
+				
+				if(coloursSeen != 3 && coloursSeen != colour){
+					coloursSeen += colour;
+				}
+				
+				if(!contains(visited, coords)){
+					if(coords[0] > 0 && !contains(visited, [coords[0] - 1, coords[1]])){
+						toVisit.push([coords[0] - 1, coords[1]]);
+					}
+					if(coords[0] < size && !contains(visited, [coords[0] + 1, coords[1]])){
+						toVisit.push([coords[0] + 1, coords[1]]);
+					}
+					if(coords[1] > 0 && !contains(visited, [coords[0], coords[1] - 1])){
+						toVisit.push([coords[0], coords[1] - 1]);
+					}
+					if(coords[1] < size && !contains(visited, [coords[0], coords[1] + 1])){
+						toVisit.push([coords[0], coords[1] + 1]);
+					}
+					
+					if(colur == 0){
+						visited.push([coords]);
+						blanks += 1;
+					}
+				}
+			}
+			//increment score here using blanks counter
+		}
 	}
 	
+	//console.log(armies);
+	//console.log(blanks);
+}
+
+function contains(myArray, myValue){
+	var exists = false;
+	if(myArray.length > 0){
+		for(i = 0; i < myArray.length(); i++){
+			if(equals(myArray[i], myValue)) exists = true;
+		}
+	}
+	return exists;
+}
+
+function equals(a, b){
+	if(a[0] == b[0] && a[1] == b[1]) return true;
+	else return false;
+}
+
+/*
+function recursiveScore(x, y){
+	if (boardState.board[x][y] == 0){
+		//do some shit
+		returnVal = {'xy' : [[x,y]], 'colour' : []}
+		
+		var temp;
+		if(x < boardState.board[0].length()) temp.push(recursiveScore(x + 1, y));
+		if(y < boardState.board[0].length()) temp.push(recursiveScore(x, y + 1));
+		if(x > 0) temp.push(recursiveScore(x - 1, y));
+		if(y > 0) temp.push(recursiveScore(x, y - 1));
+		
+		temp.forEach(function(myObject){
+			myObject.xy.forEach(function(coords){
+					exists = false;
+					for(i = 0; i < returnVal.xy.length(); i++){
+						if(coords[0] == returnVal.xy[i][0] && coords[1] == returnVal.xy[i][1]){exists = true};
+					}
+					if(!exists){returnVal.xy.push(coords);}
+				}
+			);
+			returnVal.colour.push(myObject.colour);
+		}
+		
+	} else {
+		returnVal = {'xy' : [], 'colour' : [boardState.board[x][y]]}
+	}
+	return returnVal;
 }
 */
 //****************************************************************
