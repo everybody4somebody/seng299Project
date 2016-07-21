@@ -1,10 +1,5 @@
- //@param cb {function} callback to call when the request comes back from the server.
-//var serverInterface = new ServerInterface("localhost", 3000);
-
-
 var boardState = null;
 var armies = [];
-
 var blanks = [];
 var whiteScore = 7.5;
 var blackScore = 0.0;

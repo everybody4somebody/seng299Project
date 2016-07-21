@@ -7,7 +7,20 @@ window.onload = function(){
 		first = document.getElementById('first_player').options[document.getElementById('first_player').selectedIndex].value;
 		postSize(size);
 		newBoard(drawBoard);
+
+		if (theme != 'default'){
+			changeTheme(theme);
+		}
+
+		
+
+
+
+
 		window.location = 'http://localhost:3000/game.html';
+
+
+
 
 	});
 
