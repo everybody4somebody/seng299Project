@@ -7,7 +7,10 @@
     <meta name="author" content="http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects">
 
     <title>Profile Login</title>
-
+	
+        <script type="text/javascript" src="ServerInterface.js"></script>
+        <script type="text/javascript" src="scriptForSignIn.js"></script>
+		
     <link href="css/bootstrap.min.css" rel="stylesheet">
  
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -47,7 +50,7 @@
             <div class="tab-content">
                 <div id="user-information" class="tab-pane fade in active" style="padding: 20px; background-color: #ffffff">
                     <h3>User Information</h3>
-                    <h5>Username:</h5>
+                    <h5 id="name" onclick="AccountInfo()">Username:</h5>
                 </div>
                 
                 <div id="statistics" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">

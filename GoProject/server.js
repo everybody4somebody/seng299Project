@@ -5,8 +5,8 @@ var NextMoveScript = require("./public/NextMoveScript.js");
 var util = require('util');
 var app = express();
 var users = [];
-
-var Storage = require('./lib/MongoDB');
+var DBInterface = require("./node_modules/express/DBInterface.js");
+//var Storage = require('./lib/MongoDB');
 var aiInterface = require("./aiInterface");
 
 app.use(express.static('public'));
@@ -17,7 +17,7 @@ var bodyParser = require("body-parser");
 
 var boardSize = 9;
 var boardState = generateBoard();
-var db = new Storage(null,null, 'user')
+//var db = new Storage(null,null, 'user')
 
 
 function generateBoard(){
@@ -57,7 +57,7 @@ function logsin(user){
 
 app.get("/DBdata",function (req, res){
     console.log("GET Request to: /DBdata");
-    db.getAllUsers(function(err, data){
+    DBInterface.getAllUsers(function(err, data){
          if(err){
             res.status(500).send();
         }else{
@@ -68,17 +68,26 @@ app.get("/DBdata",function (req, res){
 app.get("/login", function (req,res){
     console.log("POST Request to: /login");
     var users = [];
-    db.getAllUsers(function(err, data){
-         if(err){
-            res.status(500).send();
-        }else{
-            users = data;
-            //logsin(users);
-            res.status(200).json(data);
-        } 
-     });
+    DBInterface.getAllusers(function(data){
+		users = data;
+        console.log(users);
+		res.json(users);
+		
+	});
     
 })
+
+app.get("/replayTest", function (req, res) {
+    console.log("GET Request to: /replayTest");
+    console.log(req.url);
+	var user = req.url.substring(12);
+    DBInterface.getReplays(user, 
+		function(replay){
+			res.json(replay);
+		}
+	);
+	
+});
 
 
 /**
@@ -109,10 +118,11 @@ app.post("/add", function (req, res) {
 
     console.log("POST Request to: /add");
     
-    db.addUser(req.body, function(err){
+    DBInterface.createAccount(req.body.Username, req.body.Userpassword, function(err){
         if(err){
             res.status(500).send();
         }else{
+			
             res.status(200).send();
         }
     });
@@ -146,11 +156,12 @@ app.post("/delete", function(req, res){
     boardState.board = req.body.board;
     res.json(boardState);
 });
-
+function connect(callback) {
+        callback(null);
+}
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("Listening on port 3000");
-    db.connect(function(){
-
-    });
+	//connect(callback) {
+	//}
 });

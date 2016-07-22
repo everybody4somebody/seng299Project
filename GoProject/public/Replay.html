@@ -1,0 +1,37 @@
+<html>
+
+    <head>
+	
+    </head>
+	
+	<body>
+	
+        <h1 align="center">Replay test</h1>
+
+		<form>
+			User Name:<br>
+			<input id="userText" type="text" name="user">
+		</form>
+		
+		<button id="replayButton" type='button'>Get replay</button>
+		
+        <div style='width:100%;'>
+            <div id='canvas'>
+
+            </div>
+        </div>
+
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript"  src="svgFactory.js"></script>
+        <script type="text/javascript"  src="replayScript.js"></script>
+		<script type="text/javascript"  src="Board.js"></script>
+        <script>
+            init(); 
+        </script>
+		
+		<button onclick="prev()" type='button'>Prev</button>
+		<button onclick="next()" type='button'>Next</button>
+		
+	</body>
+	
+</html>

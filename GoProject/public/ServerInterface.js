@@ -72,13 +72,15 @@ class ServerInterface{
         xhr.open("GET", "/login", true);
         //xhr.open("GET", "/DBdata", true);
         xhr.send();
-
+		
         xhr.onreadystatechange = function () {
 
             // this function is executed when the request comes
             // back from the server.
-
+			console.log(xhr.readyState+ "and"+ xhr.status)
             if (xhr.readyState == 4 && xhr.status == 200) {
+				console.log("hey your")
+				console.log(xhr.responseText);
                 callback(null, JSON.parse(xhr.responseText));
             }else if(xhr.readyState == 4 && xhr.status !== 200){
                 callback(xhr.status, null);
@@ -145,7 +147,7 @@ class ServerInterface{
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/DBdata", true);
         xhr.send();
-
+		
         xhr.onreadystatechange = function () {
 
             // this function is executed when the request comes
