@@ -3,7 +3,11 @@ var armies = [];
 var blanks = [];
 var whiteScore = 7.5;
 var blackScore = 0.0;
-
+var color1 = 'black';
+var color2 = '#ffffff';
+var background = '#AAAAAA';
+var lines = '#404040';
+var theme = ''
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
@@ -27,9 +31,6 @@ function newBoard(cb){
 
 
 function drawBoard(state){
-
-    console.log(state);
-
     var canvas = $("#canvas");
     canvas.html('');
     var W = 600, H = 600; 
@@ -42,7 +43,7 @@ function drawBoard(state){
     for (var i = 1; i < size; i++){
         for (var j = 1; j < size; j++){
 
-            svg.append(makeRectangle(500/size * i, 500/size * j, 500/size, 500/size, 'white'))
+            svg.append(makeRectangle(500/size * i, 500/size * j, 500/size, 500/size, background, lines))
         }
     }
 
@@ -53,10 +54,10 @@ function drawBoard(state){
         var array = board[i - 1];
         for (var j = 1; j < array.length + 1; j++){
             if (board[i - 1][j - 1] == 1){
-                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black', i, j));
+                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, color1, i, j));
             }
             else if (board[i - 1][j - 1] == 2){
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue', i, j));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, color2, i, j));
             }
             else{
                 svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j));
@@ -68,6 +69,29 @@ function drawBoard(state){
 }
 
 
+function changeTheme(theme){
+    console.log(theme.theme);
+    if (theme.theme == 'Army'){
+        color1 = '#78866b';
+        color2 = '#d2b48c';
+        background = 'white';
+        lines = '#AAAAAA';
+
+        document.getElementById('snowflakeContainer').style.display = 'none';
+    }
+    else if(theme.theme == 'Christmas'){
+        color1 = '#3c8d0d';
+        color2 = '#d42426';
+        background = '#f1e7cd';
+        lines = '#ffffff';
+
+    }
+    else {
+        document.getElementById('snowflakeContainer').style.display = 'none';
+    }
+}
+
+
 function idkwut2callit(){
     newBoard(drawBoard);
 }
@@ -75,7 +99,18 @@ function idkwut2callit(){
 
 function init(){
     console.log("Initalizing Page....");
-    getData(drawBoard); 
+    $.get("/theme", function(data, textStatus, xhr){
+        console.log("Response for /theme: " + data.theme);
+        theme = data;
+        changeTheme(data);
+        
+
+    });
+
+    changeTheme(theme);
+
+    getData(drawBoard);
+
 }
 
 
@@ -111,6 +146,7 @@ $(document).ready(function(){
 });
 
 
+
 function getNextMoveColour(m){
     switch(m._c){
         
@@ -131,12 +167,10 @@ function getNextMoveColour(m){
 
 
 // Sends request to server to retrieve a move from the random address of the AI
-function getRandomMove(id){
+function getRandomMove(){
+    console.log(boardState);
 
-    boardState.position = id;
-    boardState.lastMove.x = id.substr(0, id.indexOf(','));
-    boardState.lastMove.y = id.substr(id.indexOf(',') + 1);
-    boardState.lastMove.c = getNextMoveColour(boardState.lastMove.c);
+    boardState.lastMove._c = getNextMoveColour(boardState.lastMove._c);
     $.ajax({
         type: 'POST',
         url : '/randmove',
@@ -166,7 +200,6 @@ function getMove(ID){
         contentType : "application/json",
         success : function(data){
             console.log(data);
-            console.log(status);
             boardState = data;
             armies = findArmies(boardState.board);
             var checkDeletion = checkDeletions(boardState.board);
@@ -351,7 +384,17 @@ function findArmies(board) {
 function Pass(){
     if (boardState.lastMove._pass == true){
         countAreaScore();
-        alert("GAME OVER" + " whiteScore: " + whiteScore + " blackScore: " + blackScore);
+        winner = "";
+        if (blackScore > whiteScore){
+            winner = "Player 1";
+        }else{
+            winner = "Player 2";
+        }
+        document.getElementById("winner").innerHTML = winner;
+        document.getElementById("blackScore").innerHTML = blackScore;
+        document.getElementById("whiteScore").innerHTML = whiteScore;
+        $("#endModal").modal();
+
     }else{
         var newMove = new Move();
         newMove._x = 0;

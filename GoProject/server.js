@@ -5,6 +5,7 @@ var NextMoveScript = require("./public/NextMoveScript.js");
 var util = require('util');
 var app = express();
 var users = [];
+var theme = '';
 
 var Storage = require('./lib/MongoDB');
 var aiInterface = require("./aiInterface");
@@ -89,9 +90,20 @@ app.get("/data", function (req, res) {
     res.json(boardState); 
 });
 
+app.get("/theme", function (req, res) {
+    console.log("GET Request to: /data");
+    res.json(theme); 
+});
+
+
 app.post("/size", function(req, res){
     console.log("POST Request to: /size");
     boardSize = req.body.boardSize;
+});
+
+app.post("/theme", function(req, res){
+    console.log("POST Request to: /theme");
+    theme = req.body;
 });
 
 app.post("/move", function(req, res){
@@ -123,10 +135,7 @@ app.post("/add", function (req, res) {
 app.post("/randmove", function(req, res){
 
     console.log("POST Request to: /randmove");
-    NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
-        boardState.board[move._x][move._y] = move._c;
-        boardState.lastMove = move;
-    });
+
     aiInterface.getRandomMove(boardState.size, boardState.board, boardState.lastMove, function(move){
         boardState.board[move.x][move.y] = move.c;
         boardState.lastMove = move; 

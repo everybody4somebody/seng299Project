@@ -2,6 +2,11 @@
 <!doctype html>
 <html> 
 <head>
+    <script type="text/javascript"  src="Board.js"></script>
+    <script type="text/javascript"  src="jquery.min.js"></script>
+    <script type="text/javascript"  src="svgFactory.js"></script>
+    <script type="text/javascript"  src="NextMoveScript.js"></script>
+    <script type="text/javascript"  src="script.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="Go Game">
@@ -16,7 +21,7 @@
     <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
     
     <link href="css/general.css" rel="stylesheet">
-
+    <link href="css/snow.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/owl.carousel.css" rel="stylesheet">
     <link href="css/owl.theme.css" rel="stylesheet">
@@ -28,6 +33,9 @@
 </head>
 
 <body>
+    <div id="snowflakeContainer">
+        <p class="snowflake">*</p>
+    </div>
     <div id="player-selection" class="content-section-a" style="border-top: 0">
         <div class="container">
             <div class="row">    
@@ -58,14 +66,32 @@
                 </div>
             </div> 
         </div>
+
+            <button onclick="getRandomMove()" type="button" id="AIpls" class="btn col-md-4 col-md-offset-4 btn-md btn-info">AI Move</button>
+    </div>
+    <div class="modal fade" data-backdrop="static" id="endModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Congratulations!</h3>
+                </div>
+                
+                <div class="modal-body">
+                    <h2><span id="winner">Default</span> Wins!</h2>
+                    <h3>Player 1 Score: <span id="blackScore">Default</span><h3>
+                    <h3>Player 2 Score: <span id="whiteScore">Default</span><h3>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="http://localhost:3000/index.html" class="btn btn-default">Main Menu</a>
+                    <button type="button" id="player1-login" class="btn btn-primary" data-dismiss="modal">Lee's Play Again</button>
+                 </div>
+            </div>
+        </div>
     </div>
 
-
-    <script type="text/javascript"  src="Board.js"></script>
-    <script type="text/javascript"  src="NextMoveScript.js"></script>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript"  src="svgFactory.js"></script>
-    <script type="text/javascript"  src="script.js"></script>
     <script>init();</script>
 <!-- JavaScript -->
     <script src="js/jquery-1.10.2.js"></script>
@@ -92,5 +118,7 @@
     <script src="js/uiMorphingButton_inflow.js"></script>
     <!-- Magnific Popup core JS file -->
     <script src="js/jquery.magnific-popup.js"></script> 
+    <script src="//www.kirupa.com/js/fallingsnow_v6.js"></script>
+    <script src="//www.kirupa.com/js/prefixfree.min.js"></script>
 </body>
 </html>

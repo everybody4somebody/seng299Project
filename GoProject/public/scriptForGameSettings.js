@@ -4,24 +4,22 @@ window.onload = function(){
 	$(document).on('click', '#play_button', function (event){
 		size = document.getElementById('board_size').options[document.getElementById('board_size').selectedIndex].value;
 		theme = document.getElementById('theme').options[document.getElementById('theme').selectedIndex].value;
-		first = document.getElementById('first_player').options[document.getElementById('first_player').selectedIndex].value;
 		postSize(size);
 		newBoard(drawBoard);
 
 		if (theme != 'default'){
-			changeTheme(theme);
+			console.log(theme);
+		    $.ajax({
+		        type: 'POST',
+		        url : '/theme',
+		        dataType: "json",
+		        data : JSON.stringify({"theme": theme}), 
+		        contentType : "application/json",
+		        success : function(data){
+		            console.log(data);  
+		        }
+		    });
 		}
-
-		
-
-
-
-
-		window.location = 'http://localhost:3000/game.html';
-
-
-
-
 	});
 
 

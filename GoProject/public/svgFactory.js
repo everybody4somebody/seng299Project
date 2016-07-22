@@ -41,7 +41,7 @@ function makeLine(x1, y1, x2, y2, color, stroke) {
 * 
 * @return {object} 
 */ 
-function makeRectangle(x, y, w, h, c){
+function makeRectangle(x, y, w, h, c, l){
 		var rect = document.createElementNS(SVGNameSpace, "rect"); 
 
 		rect.setAttribute("width", w);
@@ -49,7 +49,7 @@ function makeRectangle(x, y, w, h, c){
 		rect.setAttribute("x", x);
 		rect.setAttribute("y", y);
 		rect.setAttribute("fill", c);
-		rect.style.stroke = "#000000";
+		rect.style.stroke = l;
 		rect.style.strokeWidth = 2;
 
 		return rect; 
