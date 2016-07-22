@@ -1,7 +1,7 @@
 var boardState = null;
 var replay
 var index = 0;
-
+/*
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
         console.log("Response for /data: "+textStatus);  
@@ -14,7 +14,23 @@ function getData(cb){
 
     }); 
 }
-
+*/
+function replayButton(){
+	user = document.getElementById("userText").value;
+	console.log(user);
+	$.ajax({
+		type: 'GET',
+		url: '/replayTest',
+		data : user,
+		success : function(data){
+			console.log(data);
+			replay = data[0].replay;
+			boardState = {'size':data[0].replay[0].length, 'board':data[0].replay[0]};
+			drawBoard(boardState)
+		}
+	});
+}
+/*
 function getReplay(cb){
 	console.log('test');
 	$.get("/replay", function(data, textStatus, xhr){
@@ -24,7 +40,7 @@ function getReplay(cb){
 			cb(boardState);
 	});
 }
-
+*/
 
 function drawBoard(state){
 
@@ -84,7 +100,8 @@ function prev(){
 function init(){
 
     // do page load things here...
+	document.getElementById("replayButton").addEventListener("click", replayButton, false);
 
     console.log("Initalizing Page...."); 
-	getReplay(drawBoard);
+	//getReplay(drawBoard);
 }
