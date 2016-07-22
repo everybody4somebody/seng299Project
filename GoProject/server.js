@@ -7,6 +7,7 @@ var app = express();
 var users = [];
 var theme = '';
 var username;
+var username2;
 
 var aiInterface = require("./aiInterface");
 
@@ -174,6 +175,6 @@ function connect(callback) {
 }
 
 
-app.listen(process.env.PORT || 3000, function () {
-    console.log("Listening on port 3000");
+app.listen(process.env.PORT || 30010, function () {
+    console.log("Listening on port 30010");
 });

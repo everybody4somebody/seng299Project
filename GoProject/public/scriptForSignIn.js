@@ -1,4 +1,4 @@
-var serverInterface = new ServerInterface("localhost", 3000);
+var serverInterface = new ServerInterface("roberts.seng.uvic.ca", 30010);
 
 function LogIn1() {
 	var usernme = document.getElementById("username1").value;
@@ -19,9 +19,7 @@ function LogIn1() {
 					}
 				}
 				if(count==0){
-					
 					alert("log in failed");
-					
 				}
 			}
 		});
@@ -30,7 +28,7 @@ function LogIn1() {
         type: 'POST',
         url : '/user',
         dataType: "json",
-        data : JSON.stringify({'username': username}), 
+        data : JSON.stringify({'username': usernme}), 
         contentType : "application/json",
         success : function(data){
             //console.log(data);
@@ -63,6 +61,17 @@ function LogIn2() {
 				}
 			}
 		});
+	$.ajax({
+        type: 'POST',
+        url : '/user',
+        dataType: "json",
+        data : JSON.stringify({'username': usernme}), 
+        contentType : "application/json",
+        success : function(data){
+            //console.log(data);
+            console.log(status);
+        }
+    });
 }
 window.onload = function(){
 	document.getElementById('player1-guest').onclick = function() {

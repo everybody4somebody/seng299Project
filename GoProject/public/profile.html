@@ -30,7 +30,7 @@
 </head>
 <body>
     <div class="container">
-        <a href="http://localhost:3000/index.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Logout</a>
+        <a href="http://roberts.seng.uvic.ca:30010/index.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Logout</a>
     </div>
     
     <div id="player-selection" class="content-section-a" style="border-top: 0">
@@ -58,7 +58,7 @@
                   <h5>Wins:<span id="wins"></span></h5>
                   <h5>Loses:<span id="loses"></span></h5>
                   </br>
-                  <h5>Elo:<span id="elo"></span></h5>
+                 
 
                 </div>
                 
@@ -66,14 +66,15 @@
                     <h3>Replays</h3>
                     </br>
                     <div class="form-group">
-                        <select class="form-control" id="sel1">
+                        <select class="form-control" id="replayOptions">
                             <option>Replay 1</option>
-                            <option>Replay 2</option>
-                            <option>Replay 3</option>
                         </select>
                     </div>
-                    <a href="http://localhost:3000/index.html" class="btn btn-primary">View Replay</a>
+					<button type="button" id="ReplayButton" class="btn-lg btn-block btn-primary">View Replay</button>
                 </div>
+				
+				
+				
             </div>
         </div>
     </div>
