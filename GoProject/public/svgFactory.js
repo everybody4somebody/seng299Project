@@ -65,13 +65,21 @@ function makeRectangle(x, y, w, h, c, l){
 * 
 * @return {object} 
 */
-function makeCircle(x, y, r, c, i, j){
+function makeCircle(x, y, r, c, i, j, lx, ly){
 		var circ = document.createElementNS(SVGNameSpace, "circle"); 
 
 		circ.setAttribute("cx", x);
 		circ.setAttribute("cy", y);
 		circ.setAttribute("r", r);
 		circ.setAttribute('fill', c);
+
+		console.log(lx);
+		console.log(ly);
+
+		if (i == parseInt(lx) + 1 && j == parseInt(ly) + 1){
+			circ.style.strokeWidth = 2;
+			circ.style.stroke = 'brown';
+		}
 
 		if (c == "white"){
 			circ.setAttribute('fill-opacity', 0);

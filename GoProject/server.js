@@ -73,7 +73,7 @@ app.get("/login", function (req,res){
     var users = [];
     DBInterface.getAllusers(function(data){
         users = data;
-        console.log(users);
+        //console.log(users);
         res.json(users);
         
     });

@@ -54,13 +54,13 @@ function drawBoard(state){
         var array = board[i - 1];
         for (var j = 1; j < array.length + 1; j++){
             if (board[i - 1][j - 1] == 1){
-                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, color1, i, j));
+                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, color1, i, j, state.lastMove._x, state.lastMove._y));
             }
             else if (board[i - 1][j - 1] == 2){
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, color2, i, j));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, color2, i, j, state.lastMove._x, state.lastMove._y));
             }
             else{
-                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j));
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j, state.lastMove._x, state.lastMove._y));
             }
         }
     }
@@ -84,6 +84,8 @@ function changeTheme(theme){
         color2 = '#d42426';
         background = '#f1e7cd';
         lines = '#ffffff';
+
+        document.getElementById('snowflakeContainer').style.display = 'block';
 
     }
     else {
@@ -260,8 +262,8 @@ function checkDeletions(board){
 
 function checkValidity(ID){
     var isValid = false;
-    var tmpX = (parseInt(ID[0],10) - 1);
-    var tmpY = (parseInt(ID[2],10) - 1);
+    var tmpX = (parseInt(ID.substr(0, ID.indexOf(',')),10) - 1);
+    var tmpY = (parseInt(ID.substr(ID.indexOf(',') + 1),10) - 1);
     var colour = getNextMoveColour(boardState.lastMove);
     console.log(colour);
     
