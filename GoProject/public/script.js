@@ -4,11 +4,11 @@
 
 var boardState = null;
 var armies = [];
-//****************************************
+
 var blanks = [];
 var whiteScore = 7.5;
 var blackScore = 0.0;
-//****************************************
+
 
 function getData(cb){
     $.get("/data", function(data, textStatus, xhr){
@@ -27,17 +27,16 @@ function newBoard(cb){
 
         boardState = data;
         cb(data);  
-
     }); 
 }
-
 
 
 function drawBoard(state){
 
     console.log(state);
 
-    var canvas = $("#canvas"); 
+    var canvas = $("#canvas");
+    canvas.html('');
     var W = 600, H = 600; 
     canvas.css("height", H); 
     canvas.css("width", W);  
@@ -71,8 +70,8 @@ function drawBoard(state){
     }
 	canvas.empty();
     canvas.append(svg);
-
 }
+
 
 function idkwut2callit(){
     newBoard(drawBoard);
@@ -84,6 +83,7 @@ function init(){
     getData(drawBoard); 
 }
 
+
 $(document).ready(function(){
     $(document).on('mouseover', '.zero', function (event) {
 
@@ -92,12 +92,25 @@ $(document).ready(function(){
     });
 });
 
+
 $(document).ready(function(){
     $(document).on('mouseout', '.zero', function (event) {
 
         if (this.getAttribute('fill-opacity') == 0.8){
             this.setAttribute('fill', 'white');
             this.setAttribute('fill-opacity', '0');
+        }
+    });
+});
+
+
+
+$(document).ready(function(){
+    $(document).on('click', '.zero', function (event) {
+        if (checkValidity(this.getAttribute("id"))){
+            getMove(this.getAttribute("id"));
+        }else{
+            alert("That move is invalid");
         }
     });
 });
@@ -183,9 +196,6 @@ function getMove(ID){
 }
 
 
-
-
-
 function checkDeletions(board){
     
      var state = { 
@@ -197,14 +207,12 @@ function checkDeletions(board){
     var counter = 0;
     while (counter < numArmies){
         if (armies[counter].liberties == 0){
-			//***************************************************************************
-			if (armies[counter].colour == BLACK){
-				blackScore = blackScore - armies[counter].size;
-			}
-			if (armies[counter].colour == WHITE){
-				whiteScore = whiteScore - armies[counter].size;
-			}
-			//***************************************************************************
+            if (armies[counter].colour == BLACK){
+                blackScore = blackScore - armies[counter].size;
+            }
+            if (armies[counter].colour == WHITE){
+                whiteScore = whiteScore - armies[counter].size;
+            }
             state.bool = true;
             console.log("An army has been defeated");
             var numTokens = armies[counter].tokens.length;
@@ -222,49 +230,33 @@ function checkDeletions(board){
 }
 
 
-
-
 function checkValidity(ID){
     var isValid = false;
-    var tmpX = (parseInt(ID.substr(0, ID.indexOf(',')),10) - 1);
-    var tmpY = (parseInt(ID.substr(ID.indexOf(',') + 1),10) - 1);
+    var tmpX = (parseInt(ID[0],10) - 1);
+    var tmpY = (parseInt(ID[2],10) - 1);
     var colour = getNextMoveColour(boardState.lastMove);
     console.log(colour);
-    
-    
     
     if (!((tmpX-1) < 0)){
         if (boardState.board[tmpX - 1][tmpY] == 0 || boardState.board[tmpX - 1][tmpY] == colour){
             isValid = true;
         }
     }
-        
-    
     if(!((tmpX + 1) > (boardState.size - 1))){
         if (boardState.board[tmpX + 1][tmpY] == 0 || boardState.board[tmpX + 1][tmpY] == colour){
             isValid = true;
         }
-    }
-        
-    
+    }  
     if (!((tmpY - 1) < 0)){
         if (boardState.board[tmpX][tmpY - 1] == 0 || boardState.board[tmpX][tmpY - 1] == colour){
             isValid = true;
         }
     }
-        
-    
     if (!((tmpY + 1) > (boardState.size - 1))){
         if (boardState.board[tmpX][tmpY + 1] == 0 || boardState.board[tmpX][tmpY + 1] == colour){
             isValid = true;
         }
     }
-        
-    
-    
-    
-    
-    
     return isValid;
 }
 
@@ -315,7 +307,7 @@ function findArmies(board) {
             return false;
         else if (current.checked == true)
             return false;
-		else if (current.colour == 0)
+        else if (current.colour == 0)
             return true;
         else if (current.colour != army.colour)
             return false;
@@ -341,7 +333,6 @@ function findArmies(board) {
         army.addToken(current);
         
         return false;
-
    }
 
     var current = null;
@@ -349,170 +340,39 @@ function findArmies(board) {
         for (var j = 0; j < complexBoard.length; j++) {
             current = complexBoard[i][j];
             
-            if (current.colour == 0){
-				continue;
-			} 
+            if (current.colour == 0)
+                continue;
             
             if (current.checked == false) {
-					armies.push(new Army(current.colour));
-					_findArmiesRec(current, armies[armies.length-1]);
-                
+                armies.push(new Army(current.colour));
+                _findArmiesRec(current, armies[armies.length-1]);
             }
         }
     }
-    
     return armies;
-
 }
-//****************************************************************
-$(document).ready(function(){
-    $(document).on('click', '.zero', function (event) {
-        if (checkValidity(this.getAttribute("id"))){
-            getMove(this.getAttribute("id"));
-			//getRandomMove(this.getAttribute('id'));
-        }else{
-            alert("That move is invalid");
-        }
-    });
-});
-//****************************************************************
-
-
-
-//****************************************************************
-
-function countAreaScore(){
-	var visited = [];
-	var toVisit = [];
-	var size = boardState.board.length;
-	//Iterates accross every intersection on the board
-	for(i = 0; i < (size - 1); i++){
-		for(j = 0; j < (size - 1); j++){
-			//Creating used values
-			console.log("i:" + i + " j:" + j);
-			var colour = boardState.board[i][j];
-			console.log("test");
-			var blanks = 0;
-			var colourSeen = 0;
-			//If the current intersection has not been visited and it is blank add it to the list of intersections to visit
-			//console.log(colour);
-			if(!contains(visited, [i,j]) && colour == 0){
-				//console.log("I made it bro");
-				toVisit.push([i,j]);
-			}
-			//Iterates accross the list of intersections that need to be visited until it is empty
-			while(toVisit.length > 0){
-				
-				//Grabs the rear of the list and checks colour
-				coords = toVisit.pop();
-				colour = boardState.board[coords[0]][coords[1]];
-				//If we have not seen the colour we add it to the seen value
-				//console.log(boardState.board[coords[0]][coords[1]]);
-				if(colourSeen != 3 && colourSeen != colour){
-					//console.log("stuff happened");
-					colourSeen += colour;
-				}
-				//Double checking to make sure we have not already visited this intersection
-				console.log("Coords: " + coords);
-				if(!contains(visited, coords)){
-					//Four conditionals for adjacent intersentions
-					//Each checks if we have already visited it and if it is in the bounds of the matrix
-					if(colour == 0){
-						if(coords[0] > 0 && !contains(visited, [coords[0] - 1, coords[1]])){
-							toVisit.push([coords[0] - 1, coords[1]]);
-						}
-						if(coords[0] < (size - 1) && !contains(visited, [coords[0] + 1, coords[1]])){
-							toVisit.push([coords[0] + 1, coords[1]]);
-						}
-						if(coords[1] > 0 && !contains(visited, [coords[0], coords[1] - 1])){
-							toVisit.push([coords[0], coords[1] - 1]);
-						}
-						if(coords[1] < (size - 1) && !contains(visited, [coords[0], coords[1] + 1])){
-							toVisit.push([coords[0], coords[1] + 1]);
-						}
-						//If the intersection is a blank we push it into the visited list and we increment the blank counter
-						//We do not add coloured since they can border multiple blank spaces					
-						console.log("marked as visited " + coords);
-						visited.push(coords);
-						blanks += 1;
-					}
-				}
-			}
-			//TODO: increment score here using blanks counter
-			if(colourSeen != 3){
-				if(colourSeen == 1){
-					blackScore += blanks;
-				} else if(colourSeen == 2){
-					whiteScore += blanks;
-				}
-			}
-		}
-	}
-	
-	//console.log(armies);
-	//console.log(blanks);
-}
-
-function contains(myArray, myValue){
-	var exists = false;
-	if(myArray.length > 0){
-		for(w = 0; w < myArray.length; w++){
-			if(equals(myArray[w], myValue)) exists = true;
-		}
-	}
-	return exists;
-}
-
-function equals(a, b){
-	if(a[0] == b[0] && a[1] == b[1]) return true;
-	else return false;
-}
-
-/*
-function recursiveScore(x, y){
-	if (boardState.board[x][y] == 0){
-		//do some shit
-		returnVal = {'xy' : [[x,y]], 'colour' : []}
-		
-		var temp;
-		if(x < boardState.board[0].length()) temp.push(recursiveScore(x + 1, y));
-		if(y < boardState.board[0].length()) temp.push(recursiveScore(x, y + 1));
-		if(x > 0) temp.push(recursiveScore(x - 1, y));
-		if(y > 0) temp.push(recursiveScore(x, y - 1));
-		
-		temp.forEach(function(myObject){
-			myObject.xy.forEach(function(coords){
-					exists = false;
-					for(i = 0; i < returnVal.xy.length(); i++){
-						if(coords[0] == returnVal.xy[i][0] && coords[1] == returnVal.xy[i][1]){exists = true};
-					}
-					if(!exists){returnVal.xy.push(coords);}
-				}
-			);
-			returnVal.colour.push(myObject.colour);
-		}
-		
-	} else {
-		returnVal = {'xy' : [], 'colour' : [boardState.board[x][y]]}
-	}
-	return returnVal;
-}
-*/
-//****************************************************************
 
 
 
 function Pass(){
     if (boardState.lastMove._pass == true){
-		//***********************************************************************************
-		countAreaScore();
-        alert("GAME OVER" + " whiteScore: " + whiteScore + " blackScore: " + blackScore);
-		//***********************************************************************************
+        countAreaScore();
+		winner = "";
+		if (blackScore > whiteScore){
+			winner = "Player 1";
+		}else{
+			winner = "Player 2";
+		}
+		document.getElementById("winner").innerHTML = winner;
+		document.getElementById("blackScore").innerHTML = blackScore;
+		document.getElementById("whiteScore").innerHTML = whiteScore;
+		$("#endModal").modal();
+
     }else{
         var newMove = new Move();
         newMove._x = 0;
         newMove._y = 0;
-        newMove._c = getNextMoveColour(boardState.lastMove);
+        newMove._c = 0;
         newMove._pass = true;
         console.log(newMove);
         boardState.lastMove = newMove;
@@ -529,4 +389,93 @@ function Pass(){
         });
     }
     
+}
+
+
+function countAreaScore(){
+    var visited = [];
+    var toVisit = [];
+    var size = boardState.board.length;
+    //Iterates accross every intersection on the board
+    for(i = 0; i < (size - 1); i++){
+        for(j = 0; j < (size - 1); j++){
+            //Creating used values
+            console.log("i:" + i + " j:" + j);
+            var colour = boardState.board[i][j];
+            console.log("test");
+            var blanks = 0;
+            var colourSeen = 0;
+            //If the current intersection has not been visited and it is blank add it to the list of intersections to visit
+            //console.log(colour);
+            if(!contains(visited, [i,j]) && colour == 0){
+                //console.log("I made it bro");
+                toVisit.push([i,j]);
+            }
+            //Iterates accross the list of intersections that need to be visited until it is empty
+            while(toVisit.length > 0){
+                
+                //Grabs the rear of the list and checks colour
+                coords = toVisit.pop();
+                colour = boardState.board[coords[0]][coords[1]];
+                //If we have not seen the colour we add it to the seen value
+                //console.log(boardState.board[coords[0]][coords[1]]);
+                if(colourSeen != 3 && colourSeen != colour){
+                    //console.log("stuff happened");
+                    colourSeen += colour;
+                }
+                //Double checking to make sure we have not already visited this intersection
+                console.log("Coords: " + coords);
+                if(!contains(visited, coords)){
+                    //Four conditionals for adjacent intersentions
+                    //Each checks if we have already visited it and if it is in the bounds of the matrix
+                    if(colour == 0){
+                        if(coords[0] > 0 && !contains(visited, [coords[0] - 1, coords[1]])){
+                            toVisit.push([coords[0] - 1, coords[1]]);
+                        }
+                        if(coords[0] < (size - 1) && !contains(visited, [coords[0] + 1, coords[1]])){
+                            toVisit.push([coords[0] + 1, coords[1]]);
+                        }
+                        if(coords[1] > 0 && !contains(visited, [coords[0], coords[1] - 1])){
+                            toVisit.push([coords[0], coords[1] - 1]);
+                        }
+                        if(coords[1] < (size - 1) && !contains(visited, [coords[0], coords[1] + 1])){
+                            toVisit.push([coords[0], coords[1] + 1]);
+                        }
+                        //If the intersection is a blank we push it into the visited list and we increment the blank counter
+                        //We do not add coloured since they can border multiple blank spaces                    
+                        console.log("marked as visited " + coords);
+                        visited.push(coords);
+                        blanks += 1;
+                    }
+                }
+            }
+            if(colourSeen != 3){
+                if(colourSeen == 1){
+                    blackScore += blanks;
+                } else if(colourSeen == 2){
+                    whiteScore += blanks;
+                }
+            }
+        }
+    }
+    
+    //console.log(armies);
+    //console.log(blanks);
+}
+
+
+function contains(myArray, myValue){
+    var exists = false;
+    if(myArray.length > 0){
+        for(w = 0; w < myArray.length; w++){
+            if(equals(myArray[w], myValue)) exists = true;
+        }
+    }
+    return exists;
+}
+
+
+function equals(a, b){
+    if(a[0] == b[0] && a[1] == b[1]) return true;
+    else return false;
 }

@@ -6,9 +6,6 @@ var Board = require("./Board.js");
 	
 function move(board, lastMove, position, cb){
 	var newMove = new Board.Move();
-	console.log(position);
-	console.log(position.substr(0, position.indexOf(',')));
-	console.log(position.substr(position.indexOf(',') + 1));
 	var tmpX = (parseInt(position.substr(0, position.indexOf(',')),10) - 1);
 	var tmpY = (parseInt(position.substr(position.indexOf(',') + 1),10) - 1);
 
@@ -24,17 +21,17 @@ function move(board, lastMove, position, cb){
 function getNextMoveColour(m){
 	switch(m._c){
 		
-		case Board.BLACK:
-			return Board.WHITE;
+		case 1:
+			return 2;
 			break;
-		case Board.WHITE:
-			return Board.BLACK;
+		case 2:
+			return 1;
 			break;
-		case Board.NONE:
-			return Board.BLACK;
+		case 0:
+			return 1;
 			break;
 		default:
-			return Board.BLACK;
+			return 1;
 			break;
 	}
 }

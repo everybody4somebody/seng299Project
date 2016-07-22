@@ -32,7 +32,7 @@ class DBAdapter{
      * @param callback {function} called when query finishes.
      *      Takes two parameters: 1) error parameter, 2) data returned from query.
      */
-    getAllTasks(callback){
+    getAllUsers(callback){
         throw new Error("interface class, method not callable");
     }
 
@@ -43,10 +43,13 @@ class DBAdapter{
      * @param callback {function} called when query finishes.
      *      Takes a single error parameter. 
      */
-    addTask(task, callback){
+    addUser(User, callback){
         throw new Error("interface class, method not callable");
     }
-
+    
+    getUser(user, callback) {
+        throw new Error("interface class, method not callable");
+    }
     /**
      * Remove a task from the database.  
      * 

@@ -23,16 +23,19 @@ class ServerInterface{
         var postXhr = new XMLHttpRequest();
         postXhr.open("POST", path, true);
         postXhr.setRequestHeader("Content-type", "application/json");
+        console.log(obj);
         postXhr.send(JSON.stringify(obj));
-
+        console.log("jep");
         postXhr.onreadystatechange = function(){
 
             // this function is executed when the request comes 
             // back from the server. 
 
             if (postXhr.readyState == 4 && postXhr.status == 200) {
+                console.log("or here?");
                 callback(null);
             }else if(postXhr.readyState == 4 && postXhr.status !== 200){
+                console.log("here");
                 callback(postXhr.status);
             }
         }
@@ -47,14 +50,14 @@ class ServerInterface{
      * @param stop {Date} when the timer was stopped
      * @param cb {function} to call when request comes back. 
      */
-    addTask(name, project, start, stop, cb){
-        
+    addUser(Username, Userpassword, cb){
+        console.log("Rhere?")
         this._sendData(
-            {name : name, project : project, startTime : start, endTime : stop},
+            {Username : Username, Userpassword : Userpassword, 'wins': 0, 'losses':0, 'ELO':0},
             "/add",
             function(err){
                 if(err){
-                    console.log("Error adding task: "+err);
+                    console.log("Error adding user: "+err);
                     cb(err);
                 }else{
                     cb(null);
@@ -63,14 +66,36 @@ class ServerInterface{
         );
         
     }
+    
+    getUser (callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/login", true);
+        //xhr.open("GET", "/DBdata", true);
+        xhr.send();
 
+        xhr.onreadystatechange = function () {
+
+            // this function is executed when the request comes
+            // back from the server.
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                callback(null, JSON.parse(xhr.responseText));
+            }else if(xhr.readyState == 4 && xhr.status !== 200){
+                callback(xhr.status, null);
+            }
+        };
+    
+    }
+
+    
+    
     /**
      * Makes a request to remove a task from the server's memory.  
      * 
      * @param index {number} the index of the task to remove.
      * @param cb {function} to call when the request comes back. 
      */
-    removeTask(id, cb){
+    removeUser  (id, cb){
         this._sendData(
             {id : id},
             "/remove",
@@ -95,10 +120,30 @@ class ServerInterface{
      *          2) an object that represents the response from the server.
      */
      getData(callback) {
-        console.log("sending GET to /data");
+        console.log("sending GET to /DBdata");
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/data", true);
+        //xhr.open("GET", "/DBdata", true);
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+
+            // this function is executed when the request comes
+            // back from the server.
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                callback(null, JSON.parse(xhr.responseText));
+            }else if(xhr.readyState == 4 && xhr.status !== 200){
+                callback(xhr.status, null);
+            }
+        };
+    }
+    DBgetData(callback) {
+        console.log("sending GET to /DBdata");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/DBdata", true);
         xhr.send();
 
         xhr.onreadystatechange = function () {

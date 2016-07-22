@@ -6,7 +6,7 @@
 // See https://github.com/mongodb/node-mongodb-native for details.
 var MongoClient = require("mongodb").MongoClient;
 var DBAdapter   = require("./DBAdapter");
-
+var assert = require('assert');
 
 class MongoDB extends DBAdapter {
 
@@ -65,10 +65,9 @@ class MongoDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes two parameters: 1) error parameter, 2) data returned from query.
      */
-    getAllTasks(callback) {
-
-        var collection = this._db.collection("tasks");
-
+    getAllUsers(callback) {
+        var collection = this._db.collection("user");
+        //collection.remove({})
         collection.find({}).toArray(function(err, data){
             if(err){
                 callback(err, null);
@@ -76,8 +75,11 @@ class MongoDB extends DBAdapter {
                 callback(null, data);
             }
         });
+        //console.log(items);
+        //console.log(collection.find())
 
     }
+    
 
     /**
      * Adds a task to the database.
@@ -86,17 +88,55 @@ class MongoDB extends DBAdapter {
      * @param callback {function} called when query finishes.
      *      Takes a single error parameter.
      */
-    addTask(task, callback) {
-
-        task.id = (new Date()).getTime(); 
-        var collection = this._db.collection("tasks");
-        collection.insertOne(task, function(err, result){
+    addUser(User, callback) {
+        console.log("reach here?")
+        User.id = (new Date()).getTime(); 
+        var collection = this._db.collection("user");
+        collection.insertOne(User, function(err, result){
             if(err) callback(err);
             else callback(null);
         });
+        //insertDocument(db, 'users', {'user':myUsername, 'password':myPassword, 'wins':0, 'losses':0, 'ELO':0}, callback);
+        //console.log("printin collection")
+        //console.log(collection);
 
     }
+    getUser(user, callback) {
+        var collection = this._db.collection("user");
+        //collection.remove({})
+        collection.find({}).toArray(function(err, data){
+            if(err){
+                callback(err, null);
+            }else{
+                callback(null, data);
+            }
+        });
+        /*var collection = this._db.collection("user").find({"Username":user.Username, "Userpassword":user.Userpassword});
+        collection.each(function(err,data){
+            assert.equal(err,null);
+            if (data!=null) {
+                console.log()
+                console.log(data);
+            }
+            else {
+                callback();
+            }
+            
+        })*/
+        //collection.remove({})
+        /*collection.find(user, function(err, data){
+            if(err || data.length !== 0) callback(err, null);
+            else callback(null, data);
+        });*/
+        //console.log(some);
+        /*var collection = this._db.collection("user");
 
+        collection.findOne({Username : username}, function(err, data){
+            if(err || data.length !== 0) callback(err, null);
+            else callback(null, data);
+        });*/
+
+    }
     /**
      * Remove a task from the database.
      *

@@ -1,43 +1,136 @@
+<!doctype html>
+<html> 
+<head>
 
-<html>
-    <head>
-        <link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
 
-        <script type="text/javascript"  src="Board.js"></script>
-        <script type="text/javascript"  src="NextMoveScript.js"></script>
-        <script type="text/javascript" src="jquery.min.js"></script>
+	<link href='/PlayersSelection.css' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript"  src="Board.js"></script>
+    <script type="text/javascript"  src="NextMoveScript.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
         
-        <script type="text/javascript"  src="svgFactory.js"></script>
-        <script type="text/javascript" src="script.js"></script>
-		<script type="text/javascript" src="scriptForGameSettings.js"></script>
-    </head>
-    <body>
-    
-        <h1 align="center">Game Settings</h1>
+    <script type="text/javascript"  src="svgFactory.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="scriptForGameSettings.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Go Game Settings">
+    <meta name="author" content="Hunter Watson">
 
-		<div align="center">
-			<p>Your Colour</p>
-			<form action = " ">
-				<input type = "checkbox" name = "Token" value = "Black"> Black
-				<input type = "checkbox" name = "Token" value = "White"> White
-			</form>
+    <title>Settings</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+	
+    <link href="css/general.css" rel="stylesheet">
+
+    <link href="css/custom.css" rel="stylesheet">
+	<link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/magnific-popup.css"> 
+	<script src="js/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+    	<a href="http://localhost:3000/PlayersSelection.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back</a>
+    </div>
+    
+    <div id="whatis" class="content-section-a" style="border-top: 0">
+		<div class="container">
+			<div class="col-md-12 text-center wrap_title">
+				<h2>Settings</h2>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-2 col-sm-offset-1 wow fadeInDown text-center">
+				  	<img class="rotate" src="img/icon/cup.svg" alt="Generic placeholder image">
+				  	<h3>First Move</h3>
+				  	<div class="form-group">
+						<select class="form-control" id="first_player">
+					    	<option>Player 1</option>
+					    	<option>Player 2</option>
+					    	<option>Random</option>
+					  	</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-2 wow fadeInDown text-center">
+				  	<img  class="rotate" src="img/icon/tactics.svg" alt="Generic placeholder image">
+				   	<h3>Board Size</h3>
+
+				   	<div class="form-group">
+						<select class="form-control" id="board_size">
+					    	<option>9x9</option>
+					    	<option>13x13</option>
+					    	<option>19x19</option>
+					  	</select>
+					</div>
+				</div>
+				
+				<div class="col-sm-2 wow fadeInDown text-center">
+				  	<img  class="rotate" src="img/icon/picture.svg" alt="Generic placeholder image">
+				   	<h3>Theme</h3>
+				   	<div class="form-group">
+						<select class="form-control" id="theme">
+					    	<option>Default</option>
+					    	<option>Army</option>
+					    	<option>Greyscale</option>
+					  	</select>
+					</div>
+				</div><!-- /.col-lg-4 -->
+				
+				<div class="col-sm-2 wow fadeInDown text-center">
+				  	<img  class="rotate" src="img/icon/config.svg" alt="Generic placeholder image">
+				   	<h3>Handicap</h3>
+				   	<div class="form-group">
+						<select class="form-control" id="sel5">
+					    	<option>No Handicap</option>
+					    	<option>Suggested Handicap</option>
+					    	<option>Custom</option>
+
+					  	</select>
+					</div>
+				</div><!-- /.col-lg-4 -->
+
+			</div><!-- /.row -->
+			<div class="row tworow">
+				<div class="col-sm-4 col-sm-offset-4 wow fadeInDown text-center">
+					<a id="play_button" onclick='idkwut2callit()' type="button" href='http://localhost:3000/game.html' class="btn  btn-lg btn-block btn-info">Play</a>
+				</div>
+			</div><!-- /.row -->
 		</div>
-		<div align="center">
-			<p>Board Size</p>
-			<select align="center" id = "board_size"> 
-				<option>9x9</option>
-				<option>13x13</option>
-				<option>19x19<option>
-			</select>
-		</div>
-		<div align="center">
-			<form action = " ">
-				<input type = "checkbox" name = "Token" value = "Black"> Black
-				<input type = "checkbox" name = "Token" value = "White"> White
-			</form>
-		</div>
-        <div class="button_holder">
-            <a href="#" id="play_button" class="btn">Play Go</a>
-        </div>
-    </body>
+	</div>
+
+<!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script src="js/owl.carousel.js"></script>
+	<script src="js/script.js"></script>
+	<!-- StikyMenu -->
+	<script src="js/stickUp.min.js"></script>
+	<script type="text/javascript">
+	  jQuery(function($) {
+		$(document).ready( function() {
+		  $('.navbar-default').stickUp();
+		  
+		});
+	  });
+	</script>
+	<!-- Smoothscroll -->
+	<script type="text/javascript" src="js/jquery.corner.js"></script> 
+	<script src="js/wow.min.js"></script>
+	<script>
+	 new WOW().init();
+	</script>
+	<script src="js/classie.js"></script>
+	<script src="js/uiMorphingButton_inflow.js"></script>
+	<!-- Magnific Popup core JS file -->
+	<script src="js/jquery.magnific-popup.js"></script> 
+</body>
 </html>

@@ -1,28 +1,42 @@
+body{
+	background-image: url(/resources/GoMenuBackNoLogo.png);
+}
+
+div.container1 {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
+}
+
+div.container2 {
+	z-index: 1;
+	-webkit-filter: blur(100px);
+}
 
 #play_button {
-	background: #004719;
-	background-image: -webkit-linear-gradient(top, #004719, #138c00);
-	background-image: -moz-linear-gradient(top, #004719, #138c00);
-	background-image: -ms-linear-gradient(top, #004719, #138c00);
-	background-image: -o-linear-gradient(top, #004719, #138c00);
-	background-image: linear-gradient(to bottom, #004719, #138c00);
-	-webkit-border-radius: 17;
-	-moz-border-radius: 17;
-	border-radius: 17px;
-	font-family: Georgia;
-	color: #ffffff;
-	font-size: 47px;
-	padding: 15px 15px 15px 15px;
-	border: solid #000000 2px;
-	text-decoration: none;
+	display: inline-block;
+  	width: 200px;
+  	padding: 8px;
+  	color: #fff;
+  	border: 1px solid #fff;
+  	text-align: center;
+  	outline: none;
+  	text-decoration: none;
+	z-index: 10;
 
 }
 
 #play_button:hover {
-	background: #dfe60c;
-	text-decoration: none;
+	.ghost-button:hover,
+	.ghost-button:active {
+  	background-color: #fff;
+  	color: #000;
 }
-
+}
 #profiles_button {
 	-webkit-border-radius: 8;
 	-moz-border-radius: 8;
@@ -34,6 +48,7 @@
 	padding: 0px 15px 0px 15px;
 	border: solid #000000 2px;
 	text-decoration: none;
+	z-index: 10;
 }
 
 #profiles_button:hover {
