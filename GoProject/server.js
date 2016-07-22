@@ -8,6 +8,7 @@ var users = [];
 var DBInterface = require("./node_modules/express/DBInterface.js");
 //var Storage = require('./lib/MongoDB');
 var aiInterface = require("./aiInterface");
+var username = '';
 
 app.use(express.static('public'));
 
@@ -54,6 +55,15 @@ function logsin(user){
     return true;
 }
 
+app.get("/user",function (req, res){
+    console.log("GET Request to: /user");
+    res.json(username);
+});
+
+app.post("/user", function(req, res){
+    console.log("POST Request to: /user");
+    username = req.body;
+});
 
 app.get("/DBdata",function (req, res){
     console.log("GET Request to: /DBdata");
@@ -65,6 +75,7 @@ app.get("/DBdata",function (req, res){
         } 
      });
 });
+
 app.get("/login", function (req,res){
     console.log("POST Request to: /login");
     var users = [];

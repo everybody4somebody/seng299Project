@@ -11,17 +11,7 @@ window.onload = function(){
 		if (theme != 'default'){
 			changeTheme(theme);
 		}
-
-		
-
-
-
-
-		window.location = 'http://localhost:3000/game.html';
-
-
-
-
+	window.location = 'http://localhost:3000/game.html';
 	});
 
 

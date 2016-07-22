@@ -8,8 +8,8 @@
 
     <title>Profile Login</title>
 	
-        <script type="text/javascript" src="ServerInterface.js"></script>
-        <script type="text/javascript" src="scriptForSignIn.js"></script>
+    <script type="text/javascript" src="ServerInterface.js"></script>
+    <script type="text/javascript" src="scriptForProfile.js"></script>
 		
     <link href="css/bootstrap.min.css" rel="stylesheet">
  
@@ -50,17 +50,14 @@
             <div class="tab-content">
                 <div id="user-information" class="tab-pane fade in active" style="padding: 20px; background-color: #ffffff">
                     <h3>User Information</h3>
-                    <h5 id="name" onclick="AccountInfo()">Username:</h5>
+                    <h5>Username: <span id="name"></span></h5>
                 </div>
                 
                 <div id="statistics" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
                   <h3>Statistics</h3>
-                  <h5>Total Games Played:<span id="total-games"></span></h5>
                   <h5>Wins:<span id="wins"></span></h5>
                   <h5>Loses:<span id="loses"></span></h5>
                   </br>
-                  <h5>Win Streak:<span id="win-streak"></span></h5>
-                  <h5>Longest Win Streak:<span id="longest-win-streak"></span></h5>
                   <h5>Elo:<span id="elo"></span></h5>
 
                 </div>
