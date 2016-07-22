@@ -28,11 +28,13 @@
 	<link rel="stylesheet" href="css/magnific-popup.css"> 
 	
 	<script src="js/modernizr-2.8.3.min.js"></script>
+	<script type="text/javascript" src="ServerInterface.js"></script>
+	<script type="text/javascript" src="scriptForSignIn.js"></script>
 </head>
 
 <body>
     <div class="container">
-    	<a href="http://localhost:3000/index.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back</a>
+    	<a href="http://roberts.seng.uvic.ca:30010/index.html" class="btn btn-link"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>Back</a>
     </div>
 
     <div id="player-selection" class="content-section-a" style="border-top: 0">
@@ -67,8 +69,8 @@
 			
 				<div class="col-sm-12  wow fadeInDown text-center">
 				  	<div class="btn-group btn-group-lg">
-				  		<a type="button" href='http://localhost:3000/gameSettings.html' class="btn btn-primary">Settings</a>
-  						<a onclick='idkwut2callit()' type="button" href='http://localhost:3000/game.html' class="btn btn-info">Quick Play</a>
+				  		<a type="button" href='http://roberts.seng.uvic.ca:30010/gameSettings.html' class="btn btn-primary">Settings</a>
+  						<a onclick='idkwut2callit()' type="button" href='http://roberts.seng.uvic.ca:30010/game.html' class="btn btn-info">Quick Play</a>
 					</div>
 				</div>
 			</div>
@@ -89,7 +91,7 @@
 							<div class="form-group">
 								<label for="InputName">Username</label>
 								<div class="input-group">
-									<input type="text" class="form-control" name="InputName" id="usernme" placeholder="Enter Username" required>
+									<input type="text" class="form-control" name="InputName" id="username1" placeholder="Enter Username" required>
 									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
 								</div>
 							</div>
@@ -97,7 +99,7 @@
 							<div class="form-group">
 								<label for="InputEmail">Password</label>
 								<div class="input-group">
-									<input type="password" class="form-control" id="passwrd' name="InputEmail" placeholder="Enter Password" required>
+									<input type="password" class="form-control" id="password1" name="InputEmail" placeholder="Enter Password" required>
 									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
 								</div>
 							</div>
@@ -108,7 +110,7 @@
 	        	<div class="modal-footer">
 
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="log" onclick="LogIn();" data-dismiss="modal">Login</button>
+					<button type="button" class="btn btn-primary" id="log" onclick="LogIn1();" data-dismiss="modal">Login</button>
 	       		 </div>
 			</div>
     	</div>
@@ -129,7 +131,7 @@
 							<div class="form-group">
 								<label for="InputName">Username</label>
 								<div class="input-group">
-									<input type="text" class="form-control" name="InputName" id="usernme" placeholder="Enter Username" required>
+									<input type="text" class="form-control" name="InputName" id="username2" placeholder="Enter Username" required>
 									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
 								</div>
 							</div>
@@ -137,7 +139,7 @@
 							<div class="form-group">
 								<label for="InputEmail">Password</label>
 								<div class="input-group">
-									<input type="password" class="form-control" id="passwrd" name="InputEmail" placeholder="Enter Password" required>
+									<input type="password" class="form-control" id="password2" name="InputEmail" placeholder="Enter Password" required>
 									<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
 								</div>
 							</div>
@@ -147,7 +149,7 @@
 	        	
 	        	<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="log" onclick="LogIn();" data-dismiss="modal">Login</button>
+						<button type="button" class="btn btn-primary" id="log" onclick="LogIn2();" data-dismiss="modal">Login</button>
 	       		 </div>
 			</div>
     	</div>
@@ -155,8 +157,6 @@
 
 
  <!-- JavaScript -->
- 	<script type="text/javascript" src="ServerInterface.js"></script>
-	<script type="text/javascript" src="scriptForSignIn.js"></script>
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/bootstrap.js"></script>
 	<script src="js/owl.carousel.js"></script>

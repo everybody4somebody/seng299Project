@@ -1,4 +1,4 @@
-var serverInterface = new ServerInterface("localhost", 3000);
+var serverInterface = new ServerInterface("roberts.seng.uvic.ca", 30010);
 
 	//var pass = " ";
 window.onload = function(){
@@ -44,7 +44,7 @@ function SignMe(username,pass) {
 						count = 1;
 						console.log("welcome"+username);
 						alert("Success")
-						window.location = 'http://localhost:3000/profile.html';
+						window.location = 'http://roberts.seng.uvic.ca:30010/profile.html';
 						break;
 					}
 					console.log(data[i].user)

@@ -1,4 +1,4 @@
-var serverInterface = new ServerInterface("localhost", 3000);
+var serverInterface = new ServerInterface("roberts.seng.uvic.ca", 30010);
 /*window.onload = function(){
 	document.getElementById('Player1SignIn').onclick = function Sign(){
 		

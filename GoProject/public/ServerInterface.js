@@ -6,8 +6,8 @@
 class ServerInterface{
 
     constructor(url, port){
-        this._url = url || "localhost"; 
-        this._port = port || 3000; 
+        this._url = url || "roberts.seng.uvic.ca"; 
+        this._port = port || 30010; 
     }
 
     /**
