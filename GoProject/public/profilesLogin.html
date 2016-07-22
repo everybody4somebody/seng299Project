@@ -7,7 +7,7 @@
     <meta name="author" content="http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects">
 
     <title>Profile Login</title>
-
+    <script type="text/javascript" src="script.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
  
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -24,6 +24,8 @@
     
     <link rel="stylesheet" href="css/magnific-popup.css"> 
     <script src="js/modernizr-2.8.3.min.js"></script>
+        <script type="text/javascript" src="ServerInterface.js"></script>
+    <script type="text/javascript" src="scriptForProfile.js"></script>
 </head>
 <body>
 
@@ -42,14 +44,14 @@
                     <!-- Begin # Login Form -->
                     <form id="login-form">
                         <div class="modal-body">
-                            <input id="login_username" class="form-control" type="text" placeholder="Username" required>
+                            <input id="usernme" class="form-control" type="text" placeholder="Username" required>
                             </br>
-                            <input id="login_password" class="form-control" type="password" placeholder="Password" required>
+                            <input id="passwrd" class="form-control" type="password" placeholder="Password" required>
                         </div>
                         <div class="modal-footer">
-                            <div>
-                                <a type="button" href='http://localhost:3000/profile.html' class="btn  btn-lg btn-block btn-primary">Login</a>
-                            </div>
+                            <button type="button" id="Sign" class="btn-lg btn-block btn-primary">Login</button>
+                            
+                            
                         </div>
                     </form>
                     <!-- End # Login Form -->
