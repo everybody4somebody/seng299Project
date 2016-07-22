@@ -25,6 +25,18 @@ function LogIn1() {
 				}
 			}
 		});
+
+    $.ajax({
+        type: 'POST',
+        url : '/user',
+        dataType: "json",
+        data : JSON.stringify({'username': username}), 
+        contentType : "application/json",
+        success : function(data){
+            //console.log(data);
+            console.log(status);
+        }
+    });
 }
 function LogIn2() {
 	var usernme = document.getElementById("username2").value;
