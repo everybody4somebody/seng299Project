@@ -82,6 +82,24 @@ function AccountInfo(){
 				}
 			}
 		});
+		//get replays and modify html
+		$.ajax({
+			type: 'GET',
+			url: '/replayTest',
+			data : userD,
+			success : function(data){
+				console.log(data);
+				console.log(data[0]);
+				console.log(data[0][0]);
+				for(iter = 0; iter < data.length; iter++){
+					var opt = document.createElement('option');
+					opt.value = iter;
+					opt.innerHTML = ("Replay " + (iter + 1));
+					document.getElementById('sel1').appendChild(opt) 
+				}
+				
+		}
+	});
 
     });
 

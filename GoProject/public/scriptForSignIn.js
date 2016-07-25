@@ -4,6 +4,8 @@ function LogIn1() {
 	var usernme = document.getElementById("username1").value;
 	var pass = document.getElementById("password1").value;
 	var count = 0;
+	var myWins;
+	var myLosses;
     serverInterface.getUser(
 		function (err, data) {
 			if (err) {
@@ -12,7 +14,10 @@ function LogIn1() {
 			} else {	
 				for (var i =0; i<data.length;i++){
 					if (usernme==data[i].user && pass ==data[i]["password"]){
+						myWins = data[i].wins;
+						myLosses = data[i].losses;
 						count = 1;
+						console.log("DEBUG LOGIN SCTRIPT; WINS: " + myWins + " LOSSES: " + myLosses);
 						document.getElementById('player1-username-display').innerHTML = usernme;
 						alert("Welcome "+usernme)
 						break;
@@ -24,19 +29,21 @@ function LogIn1() {
 					
 				}
 			}
+			
+		$.ajax({
+			type: 'POST',
+			url : '/user',
+			dataType: "json",
+			data : JSON.stringify({'username': usernme, 'wins' : myWins, 'losses' : myLosses}), 
+			contentType : "application/json",
+			success : function(data){
+				//console.log(data);
+				console.log(status);
+			}
 		});
+	});
 
-    $.ajax({
-        type: 'POST',
-        url : '/user',
-        dataType: "json",
-        data : JSON.stringify({'username': username}), 
-        contentType : "application/json",
-        success : function(data){
-            //console.log(data);
-            console.log(status);
-        }
-    });
+    
 }
 function LogIn2() {
 	var usernme = document.getElementById("username2").value;

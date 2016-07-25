@@ -392,6 +392,19 @@ function Pass(){
         }else{
             winner = "Player 2";
         }
+
+		//server call to update stats
+        $.ajax({
+            type: 'POST',
+            url: '/updateStats',
+            dataType: "json",
+            data : JSON.stringify({winner: winner}),
+            contentType : "application/json",
+            success : function(){
+                
+            }
+        });
+		
         document.getElementById("winner").innerHTML = winner;
         document.getElementById("blackScore").innerHTML = blackScore;
         document.getElementById("whiteScore").innerHTML = whiteScore;
