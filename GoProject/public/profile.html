@@ -36,7 +36,7 @@
     <div id="player-selection" class="content-section-a" style="border-top: 0">
         <div class="container">
             <div class="col-sm-6 col-md-offset-3 text-center wrap_title">
-                <h2>Profiles</h2>
+                <h2>Profile</h2>
             </div>
         </div>
         
@@ -56,21 +56,27 @@
                 <div id="statistics" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
                   <h3>Statistics</h3>
                   <h5>Wins:<span id="wins"></span></h5>
-                  <h5>Loses:<span id="loses"></span></h5>
+                  <h5>Losses:<span id="loses"></span></h5>
                   </br>
                  
 
                 </div>
                 
-                <div id="replays" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
+<div id="replays" class="tab-pane fade" style="padding: 20px; background-color: #ffffff">
                     <h3>Replays</h3>
                     </br>
                     <div class="form-group">
-                        <select class="form-control" id="replayOptions">
-                            <option>Replay 1</option>
+                        <select class="form-control" id="sel1" onchange="onSelection()">
                         </select>
                     </div>
-					<button type="button" id="ReplayButton" class="btn-lg btn-block btn-primary">View Replay</button>
+					<div style='width:100%;'>
+						<div id='canvas'>
+
+						</div>
+					</div>
+					<a class="btn btn-primary" onclick="prev()">Previous</a>
+                    <a class="btn btn-primary" onclick="next()">Next</a>
+
                 </div>
 				
 				
@@ -84,6 +90,9 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/owl.carousel.js"></script>
     <script src="js/script.js"></script>
+	<script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript"  src="svgFactory.js"></script>
+	<script type="text/javascript"  src="Board.js"></script>
     <!-- StikyMenu -->
     <script src="js/stickUp.min.js"></script>
     <script type="text/javascript">

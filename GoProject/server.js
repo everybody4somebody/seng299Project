@@ -1,5 +1,5 @@
 "use strict";
-
+var replayLog = [];
 var express = require("express");
 var NextMoveScript = require("./public/NextMoveScript.js");
 var util = require('util');
@@ -7,7 +7,9 @@ var app = express();
 var users = [];
 var theme = '';
 var username;
-var username2;
+var userWins;
+var userLosses;
+
 
 var aiInterface = require("./aiInterface");
 
@@ -81,6 +83,19 @@ app.get("/login", function (req,res){
     
 })
 
+app.get("/replayTest", function (req, res) {
+    console.log("GET Request to: /replayTest");
+    console.log(req.url);
+	var user = req.url.substring(12);
+	DBInterface.DBDump('replays');
+	DBInterface.DBDump('users');
+    DBInterface.getReplays(user, 
+		function(replay){
+			res.json(replay);
+		}
+	);
+	
+});
 
 
 /**
@@ -94,7 +109,12 @@ app.get("/user",function (req, res){
 
 app.post("/user", function(req, res){
     console.log("POST Request to: /user");
-    username = req.body;
+    username = {'username' : req.body.username};
+	userWins = req.body.wins;
+	userLosses = req.body.losses;
+	console.log(username['username']);
+	console.log("DEBUG; USER WINS: " + userWins);
+	console.log("DEBUG; USER LOSSES: " + userLosses);
 });
 
 
@@ -125,6 +145,11 @@ app.post("/move", function(req, res){
     NextMoveScript.move(req.body.board, req.body.lastMove, req.body.position, function(move){
         boardState.board[move._x][move._y] = move._c;
         boardState.lastMove = move;
+		var boardCopy = [];
+		for(var p = 0; p < boardState.board.length; p++){
+			boardCopy[p] = boardState.board[p].slice();
+		}
+		replayLog.push(boardCopy);
         res.json(boardState);
     });
 });
@@ -153,15 +178,35 @@ app.post("/randmove", function(req, res){
     aiInterface.getRandomMove(boardState.size, boardState.board, boardState.lastMove, function(move){
         boardState.board[move.x][move.y] = move.c;
         boardState.lastMove = move; 
+		var boardCopy2 = [];
+		for(var o = 0; o < boardState.board.length; o++){
+			boardCopy2[o] = boardState.board[o].slice();
+		}
+		replayLog.push(boardCopy2);
         res.json(boardState);
     });
 
 });
-
+app.post("/updateStats", function(req, res){
+	console.log("POST request to /updateStats");
+	console.log(req.body);
+	console.log(replayLog.length);
+	var winner = req.body;
+	if(username){
+		console.log("USERNAME: " + username['username'] + " WINNER: " + winner['winner']);
+		if('Player 1' == winner['winner']){
+			userWins += 1;
+		} else {
+			userLosses += 1;
+		}
+		DBInterface.updateStats(username['username'], {'wins' : userWins, 'losses' : userLosses}, replayLog, function(){});
+	}
+});
 
 app.get("/new", function (req, res) {
     console.log("GET Request to: /new");
     boardState = generateBoard()
+	replayLog = [];
     res.json(boardState); 
 });
 
