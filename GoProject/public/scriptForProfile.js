@@ -1,4 +1,7 @@
 var serverInterface = new ServerInterface("localhost", 3000);
+var replayIndex = 0;
+var stepIndex = 0;
+var replays = [];
 
 	//var pass = " ";
 window.onload = function(){
@@ -10,6 +13,14 @@ window.onload = function(){
 	AccountInfo();
 	
 }
+
+function onSelection(){
+	console.log("TEST: " + replays);
+	replayIndex = document.getElementById("sel1").selectedIndex;
+	stepIndex = 0;
+	drawBoard({'size':replays[replayIndex][stepIndex].length, 'board':replays[replayIndex][stepIndex]});
+}
+
 function SignMe(username,pass) {
 	var count = 0;
 	
@@ -88,23 +99,71 @@ function AccountInfo(){
 			url: '/replayTest',
 			data : userD,
 			success : function(data){
-				console.log(data);
-				console.log(data[0]);
-				console.log(data[0][0]);
-				for(iter = 0; iter < data.length; iter++){
+				for(a = 0; a < data.length; a++){
+					replays[a] = data[a].replay.slice();
+					console.log("REPLAY ITERATION " + replays[a]);
 					var opt = document.createElement('option');
-					opt.value = iter;
-					opt.innerHTML = ("Replay " + (iter + 1));
-					document.getElementById('sel1').appendChild(opt) 
+					opt.value = a;
+					opt.innerHTML = ("Replay " + (a + 1));
+					document.getElementById('sel1').appendChild(opt);
 				}
-				
-		}
-	});
-
+				drawBoard({'size':replays[replayIndex][stepIndex].length, 'board':replays[replayIndex][stepIndex]});
+			}
+		});
     });
+}
 
-		
-	
+function drawBoard(state){
+
+    var canvas = $("#canvas"); 
+    var W = 600, H = 600; 
+    canvas.css("height", H); 
+    canvas.css("width", W);  
+    var svg = $(makeSVG(W, H));
+
+    var size = state['size'];
+
+    for (var i = 1; i < size; i++){
+        for (var j = 1; j < size; j++){
+
+            svg.append(makeRectangle(500/size * i, 500/size * j, 500/size, 500/size, 'white', 'black'))
+        }
+    }
+
+    var board = state['board'];
+
+    for (var i = 1; i < board.length + 1; i++){
+        console.log(board[i - 1]);
+        var array = board[i - 1];
+        for (var j = 1; j < array.length + 1; j++){
+            if (board[i - 1][j - 1] == 1){
+                svg.append(makeCircle(500/size * j, 500/size * i, 500/size/3, 'black', i, j));
+            }
+            else if (board[i - 1][j - 1] == 2){
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'blue', i, j));
+            }
+            else{
+                svg.append(makeCircle(500/size*j, 500/size*i, 500/size/3, 'white', i, j));
+            }
+        }
+    }
+	canvas.empty();
+    canvas.append(svg);
+
+}
+
+function next(){
+	if(stepIndex < (replays[replayIndex].length - 1)){
+		stepIndex += 1;
+		drawBoard({'size':replays[replayIndex][stepIndex].length, 'board':replays[replayIndex][stepIndex]});
+	}
+}
+
+function prev(){
+	if(stepIndex > 0){
+		stepIndex -= 1;
+		drawBoard({'size':replays[replayIndex][stepIndex].length, 'board':replays[replayIndex][stepIndex]});
+	}
 }
 
 //function AccountInfo2(username){

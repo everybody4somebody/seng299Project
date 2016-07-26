@@ -27,6 +27,7 @@ function replayButton(){
 			console.log(data);
 			for(a = 0; a < data.length; a++){
 				replays[a] = data[a].replay.slice();
+				console.log("REPLAY ITERATION " + replays[a]);
 			}
 			boardState = {'size':data[0].replay[0].length, 'board':data[0].replay[0]};
 			drawBoard(boardState);
@@ -92,29 +93,12 @@ function next(){
 	}
 }
 
-function nextReplay(){
-	if(replayIndex < (replays.length - 1)){
-		replayIndex += 1;
-		index = 0;
-		drawBoard({'size':replays[replayIndex][index].length, 'board':replays[replayIndex][index]});
-	}
-}
-
 function prev(){
 	if(index > 0){
 		index -= 1;
 		drawBoard({'size':replays[replayIndex][index].length, 'board':replays[replayIndex][index]});
 	}
 }
-
-function prevReplay(){
-	if(replayIndex > 0){
-		replayIndex -= 1;
-		index = 0;
-		drawBoard({'size':replays[replayIndex][index].length, 'board':replays[replayIndex][index]});
-	}
-}
-
 
 function init(){
 

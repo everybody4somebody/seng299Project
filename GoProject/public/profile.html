@@ -66,11 +66,17 @@
                     <h3>Replays</h3>
                     </br>
                     <div class="form-group">
-                        <select class="form-control" id="sel1">
+                        <select class="form-control" id="sel1" onchange="onSelection()">
                         </select>
                     </div>
-                    <a href="http://localhost:3000/replay.html" class="btn btn-primary">View Replay</a>
-					
+					<div style='width:100%;'>
+						<div id='canvas'>
+
+						</div>
+					</div>
+					<a class="btn btn-primary" onclick="prev()">Previous</a>
+                    <a class="btn btn-primary" onclick="next()">Next</a>
+
                 </div>
             </div>
         </div>
@@ -81,6 +87,9 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/owl.carousel.js"></script>
     <script src="js/script.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript"  src="svgFactory.js"></script>
+	<script type="text/javascript"  src="Board.js"></script>
     <!-- StikyMenu -->
     <script src="js/stickUp.min.js"></script>
     <script type="text/javascript">
